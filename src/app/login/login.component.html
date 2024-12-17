@@ -1,1 +1,30 @@
-<p>login works!</p>
+<div class="container mt-3">
+    <form [formGroup]="userForm" (ngSubmit)="loginUser()">
+      <div class="mb-3">
+        <label for="userName" class="form-label">Email address</label>
+        <input
+          type="email"
+          class="form-control"
+          id="userName"
+          formControlName="userName"
+          placeholder="name@example.com"
+        />
+        
+      </div>
+  
+      <div class="mb-3">
+        <label for="userPassword" class="form-label">Password</label>
+        <input
+          type="password"
+          class="form-control"
+          id="userPassword"
+          formControlName="userPassword"
+          placeholder="Password"
+        />
+        
+      </div>
+  
+      <button type="submit" class="btn btn-primary" [disabled]="userForm.invalid">Login</button>
+    </form>
+  </div>
+  

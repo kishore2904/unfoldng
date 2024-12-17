@@ -19,8 +19,11 @@
             <a class="nav-link active" aria-current="page" [routerLink]="['/contact']">Contact</a>
           </li>  
         </ul>
+        @if(!isLoggedIn){
         <button  type="button" class="btn btn-success" [routerLink]="['/login']" >Login</button>
-        <button type="button" class="btn btn-danger" >Logout</button>
+        }@else{
+        <button type="button" class="btn btn-danger" (click)="logout()" >Logout</button>
+        }
       </div>
     </div>
   </nav>

@@ -6,6 +6,7 @@ import { ForbiddenComponent } from './forbidden/forbidden.component';
 import { AboutComponent } from './about/about.component';
 import { ShopComponent } from './shop/shop.component';
 import { ContactComponent } from './contact/contact.component';
+import { AdminComponent } from './admin/admin.component';
 
 export const routes: Routes = [
     { path: '', redirectTo: 'home', pathMatch: 'full' },
@@ -16,5 +17,6 @@ export const routes: Routes = [
     { path: 'about', component: AboutComponent },
     { path: 'shop', component: ShopComponent },
     { path: 'contact', component: ContactComponent },
+    { path: 'admin', component: AdminComponent}
     
 ];
