@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
 import { UserAuthService } from '../_service/user-auth.service';
+import { UserService } from '../_service/user.service';
 
 @Component({
   selector: 'app-header',
@@ -13,6 +14,7 @@ export class HeaderComponent implements OnInit{
 
   constructor(private userAuthService: UserAuthService,
     private router: Router,
+    public userService: UserService
   ){}
   ngOnInit(): void {
     
@@ -23,11 +25,13 @@ export class HeaderComponent implements OnInit{
   }
 
   public logout(){
-    console.log("logout");
-    
      this.userAuthService.clear();
-     this.router.navigate(['/login']);
+     this.router.navigate(['/home']);
+     console.log("logout");
+  }
 
+  public userRole():boolean{
+    return this.userService.roleMatch(['Admin']);
   }
 
 }

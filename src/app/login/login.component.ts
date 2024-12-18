@@ -4,17 +4,19 @@ import { FormGroup, FormBuilder, Validators, ReactiveFormsModule } from '@angula
 import { ActivatedRoute, Router } from '@angular/router';
 import { UserService } from '../_service/user.service';
 import { UserAuthService } from '../_service/user-auth.service';
+import { ButtonModule } from 'primeng/button';
 
 @Component({
   selector: 'app-login',
   standalone: true,
   imports: [ReactiveFormsModule,
-    HttpClientModule
+    HttpClientModule,
+    ButtonModule
   ],
   templateUrl: './login.component.html',
   styleUrl: './login.component.scss',
 })
-export class LoginComponent implements OnInit, OnDestroy {
+export class LoginComponent implements OnInit {
   userForm!: FormGroup;
 
   constructor(
@@ -39,7 +41,6 @@ export class LoginComponent implements OnInit, OnDestroy {
 
   loginUser(): void {
     if (this.userForm.valid) {
-      console.log('Form Data:', this.userForm.value);
       this.userService.loginUser(this.userForm.value).subscribe((response:any)=>{
 
         console.log(response.jwtToken);
@@ -64,7 +65,5 @@ export class LoginComponent implements OnInit, OnDestroy {
     }
   }
 
-  ngOnDestroy(): void {
-    console.log('LoginComponent destroyed');
-  }
+  
 }
