@@ -22,6 +22,12 @@ export class UserService {
     }))
   }
 
+  public userRegister(userData:any){
+    return this.httpClient.post(this.API_PATH +"registerNewUser",userData,{ headers: this.headers }).pipe(map((response)=>{
+      return response;
+    }))
+  }
+
   public roleMatch(allowedRoles: any[]): boolean {
     let isMatch = false;
     const userRoles: any = this.userAuthService.getRoles();

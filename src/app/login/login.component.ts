@@ -5,14 +5,20 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { UserService } from '../_service/user.service';
 import { UserAuthService } from '../_service/user-auth.service';
 import { ButtonModule } from 'primeng/button';
+import { Toast } from 'primeng/toast';
+import { MessageService } from 'primeng/api';
+import { NgIf } from '@angular/common';
 
 @Component({
   selector: 'app-login',
   standalone: true,
   imports: [ReactiveFormsModule,
     HttpClientModule,
-    ButtonModule
+    ButtonModule,
+    Toast,
+    NgIf
   ],
+  providers:[MessageService],
   templateUrl: './login.component.html',
   styleUrl: './login.component.scss',
 })
@@ -25,6 +31,7 @@ export class LoginComponent implements OnInit {
     private readonly route: ActivatedRoute,
     private readonly userService: UserService,
     private readonly userAuthService: UserAuthService,
+    private messageService: MessageService,
     
   ) {}
 
@@ -57,7 +64,17 @@ export class LoginComponent implements OnInit {
           this.router.navigate(['/user']);
         }
       },(error)=>{
-        console.log(error);
+        if(error.error.type == 'R001'){
+          console.log(error.error.type);
+          this.userForm.reset();
+          this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Invalid Credentials' });
+          
+          
+          // setTimeout(() => {
+          //   this.router.navigate(['/signup']);
+          // }, 5000);
+          // //this.router.navigate(['/signup']);
+        }
         
       })
     } else {
@@ -65,5 +82,7 @@ export class LoginComponent implements OnInit {
     }
   }
 
-  
+  showError() {
+    this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Invalid Credentials' });
+}
 }

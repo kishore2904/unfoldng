@@ -1,30 +1,28 @@
-<div class="container mt-3">
+<p-toast position="top-center" />
+<div>
+  <h2 class="text-center mt-4">Login</h2>
+  <div class="container mt-3">
     <form [formGroup]="userForm" (ngSubmit)="loginUser()">
       <div class="mb-3">
-        <label for="userName" class="form-label">Email address</label>
-        <input
-          type="email"
-          class="form-control"
-          id="userName"
-          formControlName="userName"
-          placeholder="name@example.com"
-        />
-        
+        <label for="userName" class="form-label">Emaill Address</label>
+        <input type="email" class="form-control" id="userName" formControlName="userName" placeholder="Email Address" />
+
       </div>
-  
+
       <div class="mb-3">
         <label for="userPassword" class="form-label">Password</label>
-        <input
-          type="password"
-          class="form-control"
-          id="userPassword"
-          formControlName="userPassword"
-          placeholder="Password"
-        />
-        
+        <input type="password" class="form-control" id="userPassword" formControlName="userPassword"
+          placeholder="Password" />
+        <p *ngIf="userForm.get('userPassword')?.value?.length < 6 && userForm.get('userPassword')?.touched"
+          class="text-danger">
+          Length must be greater than 6
+        </p>
       </div>
-  
       <button type="submit" class="btn btn-primary" [disabled]="userForm.invalid">Login</button>
+      <div class="mt-3 ">
+        <p>Create a New Account? <a href="/signup">Sign Up</a></p>
+      </div>
     </form>
+
   </div>
-  
+</div>

@@ -8,6 +8,7 @@ import { ShopComponent } from './shop/shop.component';
 import { ContactComponent } from './contact/contact.component';
 import { AdminComponent } from './admin/admin.component';
 import { AuthGuard } from './_auth/auth.guard';
+import { SignupComponent } from './signup/signup.component';
 
 export const routes: Routes = [
     { path: '', redirectTo: 'home', pathMatch: 'full' },
@@ -18,6 +19,7 @@ export const routes: Routes = [
     { path: 'about', component: AboutComponent },
     { path: 'shop', component: ShopComponent },
     { path: 'contact', component: ContactComponent },
-    { path: 'admin', component: AdminComponent, canActivate:[AuthGuard],data:{roles:['Admin']}}
+    { path: 'admin', component: AdminComponent, canActivate:[AuthGuard],data:{roles:['Admin']}},
+    { path: 'signup', component:SignupComponent }
     
 ];
