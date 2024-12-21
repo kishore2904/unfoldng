@@ -1,74 +1,40 @@
-<!-- <nav class="navbar navbar-expand-lg bg-body-tertiary">
-    <div class="container-fluid">
-      <a class="navbar-brand" [routerLink]="['/home']">Unfold</a>
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-          <li class="nav-item">
-            <a class="nav-link active" aria-current="page" [routerLink]="['/home']">Home</a>
-          </li> 
-          <li class="nav-item">
-            <a class="nav-link active" aria-current="page" [routerLink]="['/about']">About Us</a>
-          </li> 
-          <li class="nav-item">
-            <a class="nav-link active" aria-current="page" [routerLink]="['/shop']">Shop</a>
-          </li> 
-          <li class="nav-item">
-            <a class="nav-link active" aria-current="page" [routerLink]="['/contact']">Contact</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link active" aria-current="page" [routerLink]="['/user']">Profile</a>
-          </li> 
-          @if(userRole()){
-          <li class="nav-item">
-            <a class="nav-link active" aria-current="page" [routerLink]="['/contact']">Admin Dashboard</a>
-          </li> 
-        }  
-        </ul>
-        @if(!isLoggedIn()){
+<section id="header">
+  <a href="#" class="logo">
+    <img src="assets/unfold-high-resolution-logo-black-transparent.png" alt="Unfold Logo">
+  </a>
+  <div>
+    <ul id="navbar" [class.open]="isMenuOpen">
+      <li>
+        <a class="active" [routerLink]="['/home']">Home</a>
+      </li>
+      <li>
+        <a [routerLink]="['/about']">About Us</a>
+      </li>
+      <li>
+        <a [routerLink]="['/shop']">Shop</a>
+      </li>
+      <li>
+        <a [routerLink]="['/contact']">Contact</a>
+      </li>
+      <li>
+        <a [routerLink]="['/user']">Profile</a>
+      </li>
+      @if(!isLoggedIn()){
         <button  type="button" class="btn btn-success" [routerLink]="['/login']" >Login</button>
         }@else{
         <button type="button" class="btn btn-danger" (click)="logout()" >Logout</button>
         }
-      </div>
-    </div>
-  </nav> -->
-
-    <section id="header">
-      <a href="#" class="logo"> Unfold</a>
-      <div>
-        <ul id="navbar">
-          <li >
-            <a class="active" aria-current="page" [routerLink]="['/home']">Home</a>
-          </li> 
-          <li >
-            <a class="" aria-current="page" [routerLink]="['/about']">About Us</a>
-          </li> 
-          <li class="nav-item">
-            <a class="nav-link " aria-current="page" [routerLink]="['/shop']">Shop</a>
-          </li> 
-          <li class="nav-item">
-            <a class="nav-link " aria-current="page" [routerLink]="['/contact']">Contact</a>
-          </li>
-          <li class="nav-item">
-            <a class="nav-link " aria-current="page" [routerLink]="['/user']">Profile</a>
-          </li> 
-          @if(userRole()){
-          <li class="nav-item">
-            <a class="nav-link " aria-current="page" [routerLink]="['/contact']">Admin Dashboard</a>
-          </li> 
-        }  
-        <li>
-          <a href=""><i class="pi pi-shopping-bag" style="font-size: 2rem"></i></a>
-        </li>
-        @if(!isLoggedIn()){
-          <button  type="button" class="btn btn-success" [routerLink]="['/login']" >Login</button>
-          }@else{
-          <button type="button" class="btn btn-danger" (click)="logout()" >Logout</button>
-          }
-        </ul>
-        
-      </div>
-    </section>
+    </ul>
+  </div>
+  <div id="mobile">
+    <a href="#"><i class="pi pi-shopping-bag" style="font-size: 2rem"></i></a>
+    <i
+      id="bar"
+      class="pi pi-bars"
+      *ngIf="!isMenuOpen"
+      (click)="toggleMenu()"
+    ></i>
+    <i class="pi pi-times" *ngIf="isMenuOpen" (click)="toggleMenu()"></i>
+  </div>
+  
+</section>
