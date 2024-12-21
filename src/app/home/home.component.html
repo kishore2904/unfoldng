@@ -40,7 +40,7 @@
     <p>Get Our new Collection Designs</p>
     <div class="pro-container">
         <div class="pro" >  <!--  Need to add (click)="navigateToShop()" for navigation -->
-            <img src="assets/products/f1.jpg" alt="">
+            <img src="assets/products/f1.jpg" alt="" (click)="navigateToShop()" >
             <div class="desc">
                 <span>Anime Tshhirt</span>
                 <h5>Zenitsu T-Shirt | Demon Slayer</h5>
@@ -53,7 +53,7 @@
                 </div>
                 <h4>Rs: 499</h4>
             </div>
-            <i class="pi pi-cart-plus cart" ></i>
+            <i class="pi pi-cart-plus cart" (click)="addToCart()"></i>
         </div>
         <div class="pro" >  <!--  Need to add (click)="navigateToShop()" for navigation -->
             <img src="assets/products/f2.jpg" alt="">
