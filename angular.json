@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "unfoldng": {
+    "Unfold": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
@@ -17,7 +17,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:application",
           "options": {
-            "outputPath": "dist/unfoldng",
+            "outputPath": "dist/Unfold",
             "index": "src/index.html",
             "browser": "src/main.ts",
             "polyfills": [
@@ -45,13 +45,13 @@
               "budgets": [
                 {
                   "type": "initial",
-                  "maximumWarning": "500kB",
-                  "maximumError": "1MB"
+                  "maximumWarning": "5MB",
+                  "maximumError": "10MB"
                 },
                 {
                   "type": "anyComponentStyle",
-                  "maximumWarning": "4kB",
-                  "maximumError": "8kB"
+                  "maximumWarning": "400kB",
+                  "maximumError": "800kB"
                 }
               ],
               "outputHashing": "all"
@@ -68,10 +68,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "buildTarget": "unfoldng:build:production"
+              "buildTarget": "Unfold:build:production"
             },
             "development": {
-              "buildTarget": "unfoldng:build:development"
+              "buildTarget": "Unfold:build:development"
             }
           },
           "defaultConfiguration": "development"

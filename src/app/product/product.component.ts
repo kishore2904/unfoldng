@@ -1,15 +1,23 @@
 import { AfterViewInit, Component } from '@angular/core';
 import { FooterComponent } from '../footer/footer.component';
+import { Router, RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-product',
-  imports: [FooterComponent],
+  imports: [
+    FooterComponent,
+    RouterModule
+  ],
   templateUrl: './product.component.html',
   styleUrl: './product.component.scss'
 })
 export class ProductComponent implements AfterViewInit {
 
-  constructor() { }
+  constructor(private router: Router) { }
+
+  addToCart(){
+    this.router.navigate(['/cart']);
+  }
 
   ngAfterViewInit(): void {
     const mainImage = <HTMLImageElement>document.getElementById('mainImage');

@@ -59,7 +59,11 @@ export class LoginComponent implements OnInit {
 
         const role = response.users.roles[0].role;
         if(role == 'Admin'){
-          this.router.navigate(['/admin']);
+          this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Login Successful' });
+          
+          setTimeout(()=>{
+            this.router.navigate(['/home']);
+          },2000);
         }else{
           this.router.navigate(['/user']);
         }

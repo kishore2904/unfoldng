@@ -18,5 +18,5 @@ import { AuthInterceptor } from './_auth/auth.interceptor';
   styleUrl: './app.component.scss'
 })
 export class AppComponent {
-  title = 'unfoldng';
+  title = 'Unfold';
 }
