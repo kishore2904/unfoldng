@@ -1,3 +1,4 @@
+<p-toast position="top-center" />
 <div class="container-fluid px-0">
     <app-admin-header></app-admin-header>
     <div class="main">
@@ -11,52 +12,51 @@
                         </div>
                     </div>
 
-                <div class="container-fluid">
-                    <div class="row justify-content-between my-4">
-                        <div class="col shadow bg-white p-4 rounded">
-                            <h4 class="text-capitalize mb-3">add new Category</h4>
-                            <div class="row form-desing my-4">
-                                <div class="col-md-3 mt-2 mt-md-0">
-                                    <label class="text-capitalize">Category Name</label><br>
-                                    <input type="text">
+                    <div class="container-fluid">
+                        <div class="row justify-content-between my-4">
+                            <div class="col shadow bg-white p-4 rounded">
+                                <h4 class="text-capitalize mb-3">add new Category</h4>
+                                <div class="row form-desing my-4">
+                                    <form [formGroup]="addCategoryForm" >
+                                    <div class="col-md-3 mt-2 mt-md-0">
+                                        <label class="text-capitalize">Category Name</label><br>
+                                        <input formControlName="categoryName" type="text">
+                                    </div>
+                                </form>
                                 </div>
-                            </div>
-                            <div class="row form-desing my-4">
-                                <div class="col">
-                                    <button class="btn save text-white py-2 px-5" type="button">Save</button>
-                                    <button class="normal" type="reset">Reset</button>
+                                <div class="row form-desing my-4">
+                                    <div class="col">
+                                        <button class="btn save text-white py-2 px-5" type="button" (click)="addCategory()">Save</button>
+                                        <button class="normal" type="reset">Reset</button>
+                                    </div>
                                 </div>
-                            </div>
 
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div class="container-fluid">
-                    <div class="row justify-content-between my-4">
-                        <div class="col shadow bg-white p-4 rounded">
-                            <h4 class="text-capitalize mb-3">all Category</h4>
+                    <div class="container-fluid">
+                        <div class="row justify-content-between my-4">
+                            <div class="col shadow bg-white p-4 rounded">
+                                <h4 class="text-capitalize mb-3">all Category</h4>
 
-                            <div class="table-responsive text-nowrap">
-                                <table class="table my-4 table-hover table-striped table-hover w-auto">
-                                    <tr>
-                                        <th>S.No</th>
-                                        <th>Category</th>
-                                    </tr>
-                                    <tr>
-                                        <td>#0021</td>
-                                        <td>Yoonis</td>
-                                    </tr>
-                                    <tr>
-                                        <td>#0023</td>
-                                        <td>Cali</td>
-                                    </tr>
-                                </table>
+                                <div class="table-responsive text-nowrap">
+                                    <table class="table my-4 table-hover table-striped table-hover w-auto">
+                                        <tr>
+                                            <th>S.No</th>
+                                            <th>Category</th>
+                                        </tr>
+                                        @for(response of categoryList; track $index){
+                                        <tr>
+                                            <td>{{$index+1}}</td>
+                                            <td>{{response.categoryName}}</td>
+                                        </tr>
+                                        }
+                                    </table>
+                                </div>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
-
     </div>
-</div>
