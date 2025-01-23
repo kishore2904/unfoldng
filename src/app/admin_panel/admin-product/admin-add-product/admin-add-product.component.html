@@ -1,0 +1,90 @@
+<app-admin-header></app-admin-header>
+<div class="container-fluid px-0">
+    <div class="main">
+      <div class="tab-content">
+        <div class="tab-pane fade show active px-4" id="admin-dashboard">
+          <div class="container-fluid">
+            <div class="row">
+              <div class="info-pages mb-3">
+                <h3 class="text-capitalize">admin dashboard</h3>
+                <p class="text-capitalize h6">home /<span> product</span></p>
+              </div>
+            </div>
+          </div>
+          <div class="container-fluid">
+            <div class="row justify-content-between my-4">
+              <div class="col shadow bg-white p-4 rounded">
+                <h4 class="text-capitalize mb-3">add new product</h4>
+                <form [formGroup]="productForm" (ngSubmit)="onSubmit()">
+                  <div class="row form-desing my-4">
+                    <div class="col-md-3 mt-2 mt-md-0">
+                      <label class="text-capitalize">product name *</label><br>
+                      <input type="text" formControlName="productName">
+                    </div>
+                    <div class="col-md-3 mt-3 mt-md-0">
+                      <label class="text-capitalize">product price *</label><br>
+                      <input type="text" formControlName="productPrice">
+                    </div>
+                    <div class="col-md-3 mt-3 mt-md-0">
+                      <label class="text-capitalize">Size *</label><br>
+                      <select formControlName="size">
+                        <option selected>Please Select Size</option>
+                        <option>S</option>
+                        <option>M</option>
+                        <option>L</option>
+                        <option>XL</option>
+                      </select>
+                    </div>
+                  </div>
+  
+                  <div class="row form-desing my-4">
+                    <div class="col-md-3 mt-3 mt-md-0">
+                      <label class="text-capitalize">Color *</label><br>
+                      <select formControlName="color">
+                        <option selected>Please Select Color</option>
+                        <option>Black</option>
+                        <option>Blue</option>
+                        <option>Red</option>
+                      </select>
+                    </div>
+                    <div class="col-md-3 mt-3 mt-md-0">
+                      <label class="text-capitalize">Category *</label><br>
+                      <select formControlName="category">
+                        <option selected>Please Select Category</option>
+                        <option>Tshirt</option>
+                        <option>Anime</option>
+                        <option>Over Sized</option>
+                      </select>
+                    </div>
+                    <div class="col-md-3 mt-3 mt-md-0">
+                      <label class="text-capitalize">Stock Quantity*</label><br>
+                      <input type="text" formControlName="stockQuantity">
+                    </div>
+                  </div>
+  
+                  <div class="row form-desing my-4">
+                    <div class="col-md-6 mt-2 mt-md-0">
+                      <label>Product Description</label><br>
+                      <textarea cols="30" rows="10" formControlName="productDescription"></textarea>
+                    </div>
+                    <div class="col-md-6 mt-3 mt-md-0">
+                      <label>Upload Photo (150px X 150px)</label><br>
+                      <input type="file" formControlName="productImage">
+                    </div>
+                  </div>
+  
+                  <div class="row form-desing my-4">
+                    <div class="col">
+                      <button class="btn save text-white py-2 px-5" type="submit" [disabled]="!productForm.valid">Save</button>
+                      <button class="btn py-2 px-5" type="button" (click)="onReset()">Reset</button>
+                    </div>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
