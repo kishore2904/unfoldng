@@ -23,7 +23,8 @@ import { NgIf } from '@angular/common';
   styleUrl: './login.component.scss',
 })
 export class LoginComponent implements OnInit {
-  userForm!: FormGroup;
+  loginForm!: FormGroup;
+  registerForm!: FormGroup;
 
   constructor(
     private readonly formBuilder: FormBuilder,
@@ -36,9 +37,15 @@ export class LoginComponent implements OnInit {
   ) {}
 
   initialiseForm(): void {
-    this.userForm = this.formBuilder.group({
+    this.loginForm = this.formBuilder.group({
       userName: ['', [Validators.required]],
       userPassword: ['', [Validators.required, Validators.minLength(6)]],
+    });
+    this.registerForm = this.formBuilder.group({
+      userName:['',[Validators.required]],
+      password:['',[Validators.required]],
+      emailAddress:['',[Validators.required]],
+      confirmUserPassword: ['',[Validators.required]]
     });
   }
 
@@ -47,8 +54,8 @@ export class LoginComponent implements OnInit {
   }
 
   loginUser(): void {
-    if (this.userForm.valid) {
-      this.userService.loginUser(this.userForm.value).subscribe((response:any)=>{
+    if (this.loginForm.valid) {
+      this.userService.loginUser(this.loginForm.value).subscribe((response:any)=>{
 
         console.log(response.jwtToken);
         console.log(response);
@@ -56,6 +63,7 @@ export class LoginComponent implements OnInit {
 
         this.userAuthService.setToken(response.jwtToken);
         this.userAuthService.setRoles(response.users.roles)
+        this.userAuthService.setUserId(response.users.user_id);
 
         const role = response.users.roles[0].role;
         if(role == 'Admin'){
@@ -64,20 +72,14 @@ export class LoginComponent implements OnInit {
           setTimeout(()=>{
             this.router.navigate(['/home']);
           },2000);
-        }else{
-          this.router.navigate(['/user']);
+        }else if(role == 'User'){
+          this.router.navigate(['/home']);
         }
       },(error)=>{
         if(error.error.type == 'R001'){
           console.log(error.error.type);
-          this.userForm.reset();
+          this.loginForm.reset();
           this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Invalid Credentials' });
-          
-          
-          // setTimeout(() => {
-          //   this.router.navigate(['/signup']);
-          // }, 5000);
-          // //this.router.navigate(['/signup']);
         }
         
       })
@@ -88,5 +90,15 @@ export class LoginComponent implements OnInit {
 
   showError() {
     this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Invalid Credentials' });
+}
+
+registerUser():void{
+  if(this.registerForm.valid){
+    this.userService.userRegister(this.registerForm.value).subscribe((response)=>{
+      console.log(response);
+    })
+  }
+
+  
 }
 }

@@ -16,10 +16,10 @@
                       <div id="lg1" class="tab-pane active">
                           <div class="login-form-container">
                               <div class="login-register-form">
-                                <form [formGroup]="userForm" (ngSubmit)="loginUser()">
+                                <form [formGroup]="loginForm" (ngSubmit)="loginUser()">
                                       <input type="text" name="user-name" formControlName="userName" placeholder="Username">
                                       <input type="password" name="user-password" formControlName="userPassword" placeholder="Password">
-                                      <p *ngIf="userForm.get('userPassword')?.value?.length < 6 && userForm.get('userPassword')?.touched"
+                                      <p *ngIf="loginForm.get('userPassword')?.value?.length < 6 && loginForm.get('userPassword')?.touched"
                                       class="text-danger">
                                       Length must be greater than 6
                                     </p>
@@ -29,7 +29,7 @@
                                               <label>Remember me</label>
                                               <a href="#">Forgot Password?</a>
                                           </div>
-                                          <button type="submit" [disabled]="userForm.invalid"><span>Login</span></button>
+                                          <button type="submit" [disabled]="loginForm.invalid"><span>Login</span></button>
                                       </div>
                                   </form>
                               </div>
@@ -38,12 +38,13 @@
                       <div id="lg2" class="tab-pane">
                           <div class="login-form-container">
                               <div class="login-register-form">
-                                  <form action="#" method="post">
-                                      <input type="text" name="user-name" placeholder="Username">
-                                      <input type="password" name="user-password" placeholder="Password">
-                                      <input name="user-email" placeholder="Email" type="email">
+                                <form [formGroup]="registerForm" (ngSubmit)="registerUser()">
+                                      <input type="text" formControlName="userName" name="user-name" placeholder="Username">
+                                      <input name="user-email" formControlName="emailAddress" placeholder="Email" type="email">
+                                      <input type="password" formControlName="password" name="user-password" placeholder="Password">
+                                      <input type="password" formControlName="confirmUserPassword" name="confirm-user-password" placeholder="Confirm Password">
                                       <div class="button-box">
-                                          <button type="submit"[disabled]="userForm.invalid"><span>Register</span></button>
+                                          <button type="submit"[disabled]="registerForm.invalid"><span>Register</span></button>
                                       </div>
                                   </form>
                               </div>

@@ -65,7 +65,7 @@ describe('LoginComponent.initialiseForm() initialiseForm method', () => {
       component.initialiseForm();
 
       // Assert
-      expect(component.userForm.valid).toBe(true);
+      expect(component.loginForm.valid).toBe(true);
     });
   });
 
@@ -80,7 +80,7 @@ describe('LoginComponent.initialiseForm() initialiseForm method', () => {
       component.initialiseForm();
 
       // Assert
-      expect(component.userForm.valid).toBe(false);
+      expect(component.loginForm.valid).toBe(false);
     });
 
     it('should handle form initialization with missing validators', () => {
