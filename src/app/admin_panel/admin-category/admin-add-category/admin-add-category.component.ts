@@ -6,59 +6,108 @@ import { Subscription, switchMap } from 'rxjs';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Toast } from 'primeng/toast';
 import { MessageService } from 'primeng/api';
+import { UserAuthService } from '../../../_service/user-auth.service';
+import { NgFor } from '@angular/common';
 
 @Component({
   selector: 'app-admin-add-category',
-  standalone:true,
+  standalone: true,
   imports: [
     AdminHeaderComponent,
     ReactiveFormsModule,
     Toast,
-      ],
-      providers:[MessageService],
+  ],
+  providers: [MessageService],
   templateUrl: './admin-add-category.component.html',
-  styleUrl: './admin-add-category.component.scss'
+  styleUrls: ['./admin-add-category.component.scss']
 })
-export class AdminAddCategoryComponent implements OnInit{
-  categoryList: Category[]=[];
+export class AdminAddCategoryComponent implements OnInit {
+  categoryList: Category[] = [];
   addCategoryForm!: FormGroup;
+  userToken!: string;
+  isEditMode = false;
+  editingCategoryId: number | null = null;
 
   private subscriptions: Subscription[] = [];
+
   constructor(
     private readonly formBuilder: FormBuilder,
-    private readonly categoryService:CategoryService,
+    private readonly categoryService: CategoryService,
     private messageService: MessageService,
-  ){}
+    private userAuthService: UserAuthService
+  ) { }
 
-  initializeForm():void{
-    this.addCategoryForm=this.formBuilder.group({
-      categoryName: ['',Validators.required]
-    })
+  initializeForm(): void {
+    this.addCategoryForm = this.formBuilder.group({
+      categoryName: ['', Validators.required],
+    });
   }
+
   ngOnInit(): void {
     this.initializeForm();
-    this.categoryService.getCategory().subscribe((response)=>{
-      this.categoryList = response;
-    })
+    this.userToken = this.userAuthService.getToken();
+    console.log(this.userAuthService.getToken());
+
+    this.fetchCategories();
   }
 
-  addCategory(){
+  fetchCategories(): void {
     this.subscriptions.push(
-      this.categoryService.addCategory(this.addCategoryForm.value).pipe(
-        switchMap(()=>{
-          return this.categoryService.getCategory()
-        })
-      ).subscribe((response)=>{
-        this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Category Added Successful' });
-        setTimeout(() => {
+      this.categoryService.getCategory().subscribe((response) => {
         this.categoryList = response;
-        this.addCategoryForm.reset();
-        }, 2000);
-        
-        
       })
-    )
-    
+    );
   }
 
+  addCategory(): void {
+    if (this.isEditMode) {
+      this.updateCategory();
+    } else {
+      this.subscriptions.push(
+        this.categoryService
+          .addCategory(this.addCategoryForm.value)
+          .pipe(switchMap(() => this.categoryService.getCategory()))
+          .subscribe((response) => {
+            this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Category Added Successfully' });
+            this.categoryList = response;
+            this.resetForm();
+          })
+      );
+    }
+  }
+
+  editCategory(category: Category): void {
+    this.isEditMode = true;
+    this.editingCategoryId = category.categoryId;
+    this.addCategoryForm.patchValue({
+      categoryName: category.categoryName,
+    });
+  }
+
+  updateCategory(): void {
+    if (this.editingCategoryId !== null) {
+      const updatedCategory = { id: this.editingCategoryId, ...this.addCategoryForm.value };
+
+      this.subscriptions.push(
+        this.categoryService
+          .updateCategory(this.editingCategoryId, updatedCategory) // Assumes `updateCategory` exists in `CategoryService`
+          .pipe(switchMap(() => this.categoryService.getCategory()))
+          .subscribe((response) => {
+            this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Category Updated Successfully' });
+            this.categoryList = response;
+            this.resetForm();
+          })
+      );
+    }
+  }
+
+  resetForm(): void {
+    this.addCategoryForm.reset();
+    this.isEditMode = false;
+    this.editingCategoryId = null;
+  }
+
+  ngOnDestroy(): void {
+    this.subscriptions.forEach((sub) => sub.unsubscribe());
+  }
 }

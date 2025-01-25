@@ -1,18 +1,28 @@
 import { Component, OnInit } from '@angular/core';
 import { AdminHeaderComponent } from '../../admin-header/admin-header.component';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { CategoryService } from '../../../_service/category.service';
+import { Category } from '../../../../model/category.model';
+import { NgFor } from '@angular/common';
 
 @Component({
   selector: 'app-admin-add-product',
-  imports: [AdminHeaderComponent,ReactiveFormsModule],
+  imports: [
+    AdminHeaderComponent,
+    ReactiveFormsModule,
+  NgFor],
   templateUrl: './admin-add-product.component.html',
   styleUrl: './admin-add-product.component.scss'
 })
 export class AdminAddProductComponent implements OnInit{
   productForm!: FormGroup;
-  constructor(private fb: FormBuilder) { }
+  category: Category[] =[];
+  constructor(private fb: FormBuilder,
+    private categoryService: CategoryService,
+  ) { }
   ngOnInit(): void {
     this.initializeForm();
+    this.getAllCategory();
   }
 
   initializeForm():void{
@@ -38,6 +48,13 @@ export class AdminAddProductComponent implements OnInit{
 
   onReset(): void {
     this.productForm.reset();
+  }
+  getAllCategory(): void{
+    this.categoryService.getCategory().subscribe((response)=>{
+      this.category = response;
+      console.log(this.category);
+      
+    })
   }
 
 }

@@ -51,9 +51,7 @@
                       <label class="text-capitalize">Category *</label><br>
                       <select formControlName="category">
                         <option selected>Please Select Category</option>
-                        <option>Tshirt</option>
-                        <option>Anime</option>
-                        <option>Over Sized</option>
+                        <option *ngFor="let cat of category" [value]="cat.categoryId">{{ cat.categoryName }}</option>
                       </select>
                     </div>
                     <div class="col-md-3 mt-3 mt-md-0">

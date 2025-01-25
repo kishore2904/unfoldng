@@ -1,5 +1,5 @@
 export class Category{
-    categoryId: number | undefined;
+    categoryId!: number ;
     categoryName: string | undefined;
     parentCategoryId: number | undefined;
 
