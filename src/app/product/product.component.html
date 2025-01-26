@@ -18,8 +18,8 @@
     </div>
     <div class="single-product-details">
         <h6>Anime T-shirt</h6>
-        <h4>{{product.productName}}</h4>
-        <h2>{{product.price}}</h2>
+        <h4>{{product?.productName}}</h4>
+        <h2>{{product?.price}}</h2>
         <select name="" id="">
             <option value="">Select Size</option>
             <option value="">S</option>
@@ -29,9 +29,10 @@
         </select>
         <input type="number" value="1">
         <button class="normal" (click)="addToCart()">Add to cart</button>
+        <button class="normal ml-2" (click)="buyNow(product)">Buy Now</button>
         <h4>Product Description</h4>
         <span>
-            {{product.productDescription}}
+            {{product?.productDescription}}
         </span>
     </div>
 

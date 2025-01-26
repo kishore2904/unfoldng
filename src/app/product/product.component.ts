@@ -51,4 +51,7 @@ export class ProductComponent implements AfterViewInit,OnInit {
       });
     });
   }
+  buyNow(product:Product){
+    
+  }
 }

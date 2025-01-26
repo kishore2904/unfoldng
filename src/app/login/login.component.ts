@@ -95,7 +95,10 @@ export class LoginComponent implements OnInit {
 registerUser():void{
   if(this.registerForm.valid){
     this.userService.userRegister(this.registerForm.value).subscribe((response)=>{
-      console.log(response);
+      this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Account created Successful. Please login again' });
+      setTimeout(()=>{
+        this.router.navigate(['/home']);
+      },2000);
     })
   }
 

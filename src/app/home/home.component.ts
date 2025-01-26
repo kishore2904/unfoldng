@@ -38,16 +38,18 @@ export class HomeComponent implements OnInit{
   }
 
   ngOnInit(): void {
-    if(this.userAuthService.isLoggedIn()){
     this.productService.getAllProducts().subscribe((response)=>{
       this.product = response.slice(0,4);
       this.featuredProduct = response;  
       console.log(response);
       
     })
-  }else{
-    this.router.navigate(['/login']);
-  }
+  //   if(this.userAuthService.isLoggedIn()){
+  //   console.log("logged in");
+    
+  // }else{
+  //   this.router.navigate(['/login']);
+  // }
   }
 
   navigateToShop(product:Product){
