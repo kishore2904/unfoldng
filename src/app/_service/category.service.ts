@@ -29,10 +29,21 @@ export class CategoryService {
 
   public updateCategory(categoryId: number, category: Category): Observable<Category> {
     const headers = this.createAuthorizationHeader();
-    return this.httpClient.put<Category>(
+    return this.httpClient.post<Category>(
       `${API_PATH}rest/unfold/categories/${categoryId}`, 
       category, 
       { headers }
     );
   }
+  deleteCategory(categoryId: number): Observable<any> {
+    const headers = this.createAuthorizationHeader();
+    return this.httpClient.delete<any>(`${API_PATH}${REST_API}/categories/${categoryId}`, { headers
+    });
+  }
+
+  getCategoryById(categoryId:number): Observable<Category>{
+    const headers = this.createAuthorizationHeader();
+    return this.httpClient.get<Category>(`${API_PATH}${REST_API}/categories/${categoryId}`,{headers});
+  }
+  
 }

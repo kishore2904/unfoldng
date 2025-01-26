@@ -1,62 +1,77 @@
-<p-toast position="top-center" />
+<p-toast position="top-center"></p-toast>
 <div class="container-fluid px-0">
-    <app-admin-header></app-admin-header>
-    <div class="main">
-        <div class="tab-content">
-            <div class="tab-pane fade show active px-4" id="admin-dashboard">
-                <div class="container-fluid">
-                    <div class="row">
-                        <div class="info-pages mb-3">
-                            <h3 class="text-capitalize">admin dashboard</h3>
-                            <p class="text-capitalize h6">home /<span> category</span></p>
-                        </div>
-                    </div>
-
-                    <div class="container-fluid">
-                        <div class="row justify-content-between my-4">
-                            <div class="col shadow bg-white p-4 rounded">
-                                <h4 class="text-capitalize mb-3">add new Category</h4>
-                                <div class="row form-desing my-4">
-                                    <form [formGroup]="addCategoryForm" >
-                                    <div class="col-md-3 mt-2 mt-md-0">
-                                        <label class="text-capitalize">Category Name</label><br>
-                                        <input formControlName="categoryName" type="text">
-                                    </div>
-                                </form>
-                                </div>
-                                <div class="row form-desing my-4">
-                                    <div class="col">
-                                        <button class="btn save text-white py-2 px-5" type="button" (click)="addCategory()">Save</button>
-                                        <button class="normal" type="reset">Reset</button>
-                                    </div>
-                                </div>
-
-                            </div>
-                        </div>
-                    </div>
-                    <div class="container-fluid">
-                        <div class="row justify-content-between my-4">
-                            <div class="col shadow bg-white p-4 rounded">
-                                <h4 class="text-capitalize mb-3">all Category</h4>
-
-                                <div class="table-responsive text-nowrap">
-                                    <table class="table my-4 table-hover table-striped table-hover w-auto">
-                                        <tr>
-                                            <th>S.No</th>
-                                            <th>Category</th>
-                                        </tr>
-                                        @for(response of categoryList; track $index){
-                                        <tr>
-                                            <td>{{$index+1}}</td>
-                                            <td>{{response.categoryName}}</td>
-                                        </tr>
-                                        }
-                                    </table>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+  <app-admin-header></app-admin-header>
+  <div class="main">
+    <div class="tab-content">
+      <div class="tab-pane fade show active px-4" id="admin-dashboard">
+        <div class="container-fluid">
+          <div class="row">
+            <div class="info-pages mb-3">
+              <h3 class="text-capitalize">admin dashboard</h3>
+              <p class="text-capitalize h6">home /<span> category</span></p>
             </div>
+          </div>
+
+          <!-- Add New Category -->
+          <div class="container-fluid">
+            <div class="row justify-content-between my-4">
+              <div class="col shadow bg-white p-4 rounded">
+                <h4 class="text-capitalize mb-3">add new Category</h4>
+                <div class="row form-desing my-4">
+                  <form [formGroup]="addCategoryForm">
+                    <div class="col-md-3 mt-2 mt-md-0">
+                      <label class="text-capitalize">Category Name</label><br />
+                      <input formControlName="categoryName" type="text" />
+                    </div>
+                  </form>
+                </div>
+                <div class="row form-desing my-4">
+                  <div class="col">
+                    <button
+                      class="btn save text-white py-2 px-5"
+                      type="button"
+                      (click)="addCategory()"
+                    >
+                      Save
+                    </button>
+                    <button class="normal" type="reset">Reset</button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Display All Categories -->
+          <div class="container-fluid">
+            <div class="row justify-content-between my-4">
+              <div class="col shadow bg-white p-4 rounded">
+                <h4 class="text-capitalize mb-3">all Categories</h4>
+                <div class="table-responsive text-nowrap">
+                  <table class="table my-4 table-hover table-striped w-auto">
+                    <thead>
+                      <tr>
+                        <th>S.No</th>
+                        <th>Category</th>
+                        <th>Actions</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr
+                        *ngFor="let response of categoryList; let i = index; "
+                      >
+                        <td>{{ i + 1 }}</td>
+                        <td>{{ response.categoryName }}</td>
+                        <td><i class="pi pi-pencil" (click)="editCategory(response)"></i></td>
+                        <td><i class="pi pi-times" (click)="deleteCategory(response.categoryId)"></i></td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
+      </div>
     </div>
+  </div>
+</div>

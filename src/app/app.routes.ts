@@ -26,7 +26,7 @@ export const routes: Routes = [
     { path: 'contact', component: ContactComponent },
     { path: 'admin', component: AdminComponent, canActivate: [AuthGuard], data: { roles: ['Admin'] } },
     { path: 'signup', component: SignupComponent },
-    { path: 'product', component: ProductComponent },
+    { path: 'product/:categoryId/:productId', component: ProductComponent },
     { path: 'cart', component: CartComponent },
     { path: 'admin-add-category', component: AdminAddCategoryComponent, canActivate: [AuthGuard], data: { roles: ['Admin'] } },
     { path: 'admin-add-product', component: AdminAddProductComponent, canActivate: [AuthGuard], data: { roles: ['Admin'] } }

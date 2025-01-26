@@ -4,7 +4,7 @@
     <h2>Super value Deals</h2>
     <h1>On all products</h1>
     <p>Save more with coupons & up to 50% off!</p>
-    <button (click)="navigateToShop()">Shop Now</button>
+    <button (click)="toShop()">Shop Now</button>
 </section>
 <!-- hero section end -->
 
@@ -30,7 +30,7 @@
         <img src="assets/features/f5.png" alt="Feature Image">
         <h6>Happy Sale</h6>
     </div>
-    
+
 </section>
 <!-- feaure section end -->
 
@@ -39,133 +39,17 @@
     <h2>Featured Products</h2>
     <p>Get Our new Collection Designs</p>
     <div class="pro-container">
-        <div class="pro" >  <!--  Need to add (click)="navigateToShop()" for navigation -->
-            <img src="assets/products/f1.jpg" alt="" (click)="navigateToShop()" >
+        <div *ngFor="let product of product" class="pro">
+            <img [src]="'assets/products/f1.jpg'" alt="" (click)="navigateToShop(product)">
             <div class="desc">
-                <span>Anime Tshhirt</span>
-                <h5>Zenitsu T-Shirt | Demon Slayer</h5>
+                <span>{{ product.categoryId }}</span>
+                <h5>{{ product.productName }}</h5>
                 <div class="star">
-                    <i class="pi pi-star-fill" ></i>
-                    <i class="pi pi-star-fill" ></i>
-                    <i class="pi pi-star-fill" ></i>
-                    <i class="pi pi-star-fill" ></i>
-                    <i class="pi pi-star-half-fill" ></i>
+                    <i class="pi pi-star-fill" *ngFor="let star of getStars(4)"></i>
                 </div>
-                <h4>Rs: 499</h4>
+                <h4>Rs: {{ product.price }}</h4>
             </div>
-            <i class="pi pi-cart-plus cart" (click)="addToCart()"></i>
-        </div>
-        <div class="pro" >  <!--  Need to add (click)="navigateToShop()" for navigation -->
-            <img src="assets/products/f2.jpg" alt="">
-            <div class="desc">
-                <span>Anime Tshhirt</span>
-                <h5>Zenitsu T-Shirt | Demon Slayer</h5>
-                <div class="star">
-                    <i class="pi pi-star-fill" ></i>
-                    <i class="pi pi-star-fill" ></i>
-                    <i class="pi pi-star-fill" ></i>
-                    <i class="pi pi-star-fill" ></i>
-                    <i class="pi pi-star-half-fill" ></i>
-                </div>
-                <h4>Rs: 499</h4>
-            </div>
-            <i class="pi pi-cart-plus cart" ></i>
-        </div>
-        <div class="pro" >  <!--  Need to add (click)="navigateToShop()" for navigation -->
-            <img src="assets/products/f3.jpg" alt="">
-            <div class="desc">
-                <span>Anime Tshhirt</span>
-                <h5>Zenitsu T-Shirt | Demon Slayer</h5>
-                <div class="star">
-                    <i class="pi pi-star-fill" ></i>
-                    <i class="pi pi-star-fill" ></i>
-                    <i class="pi pi-star-fill" ></i>
-                    <i class="pi pi-star-fill" ></i>
-                    <i class="pi pi-star-half-fill" ></i>
-                </div>
-                <h4>Rs: 499</h4>
-            </div>
-            <i class="pi pi-cart-plus cart" ></i>
-        </div>
-        <div class="pro" >  <!--  Need to add (click)="navigateToShop()" for navigation -->
-            <img src="assets/products/f4.jpg" alt="">
-            <div class="desc">
-                <span>Anime Tshhirt</span>
-                <h5>Zenitsu T-Shirt | Demon Slayer</h5>
-                <div class="star">
-                    <i class="pi pi-star-fill" ></i>
-                    <i class="pi pi-star-fill" ></i>
-                    <i class="pi pi-star-fill" ></i>
-                    <i class="pi pi-star-fill" ></i>
-                    <i class="pi pi-star-half-fill" ></i>
-                </div>
-                <h4>Rs: 499</h4>
-            </div>
-            <i class="pi pi-cart-plus cart" ></i>
-        </div>
-        <div class="pro" >  <!--  Need to add (click)="navigateToShop()" for navigation -->
-            <img src="assets/products/f5.jpg" alt="">
-            <div class="desc">
-                <span>Anime Tshhirt</span>
-                <h5>Zenitsu T-Shirt | Demon Slayer</h5>
-                <div class="star">
-                    <i class="pi pi-star-fill" ></i>
-                    <i class="pi pi-star-fill" ></i>
-                    <i class="pi pi-star-fill" ></i>
-                    <i class="pi pi-star-fill" ></i>
-                    <i class="pi pi-star-half-fill" ></i>
-                </div>
-                <h4>Rs: 499</h4>
-            </div>
-            <i class="pi pi-cart-plus cart" ></i>
-        </div>
-        <div class="pro" >  <!--  Need to add (click)="navigateToShop()" for navigation -->
-            <img src="assets/products/f6.jpg" alt="">
-            <div class="desc">
-                <span>Anime Tshhirt</span>
-                <h5>Zenitsu T-Shirt | Demon Slayer</h5>
-                <div class="star">
-                    <i class="pi pi-star-fill" ></i>
-                    <i class="pi pi-star-fill" ></i>
-                    <i class="pi pi-star-fill" ></i>
-                    <i class="pi pi-star-fill" ></i>
-                    <i class="pi pi-star-half-fill" ></i>
-                </div>
-                <h4>Rs: 499</h4>
-            </div>
-            <i class="pi pi-cart-plus cart" ></i>
-        </div>
-        <div class="pro" >  <!--  Need to add (click)="navigateToShop()" for navigation -->
-            <img src="assets/products/f7.jpg" alt="">
-            <div class="desc">
-                <span>Anime Tshhirt</span>
-                <h5>Zenitsu T-Shirt | Demon Slayer</h5>
-                <div class="star">
-                    <i class="pi pi-star-fill" ></i>
-                    <i class="pi pi-star-fill" ></i>
-                    <i class="pi pi-star-fill" ></i>
-                    <i class="pi pi-star-fill" ></i>
-                    <i class="pi pi-star-half-fill" ></i>
-                </div>
-                <h4>Rs: 499</h4>
-            </div>
-            <i class="pi pi-cart-plus cart" ></i>
-        </div>
-        <div class="pro" >  <!--  Need to add (click)="navigateToShop()" for navigation -->
-            <img src="assets/products/f8.jpg" alt="">
-            <div class="desc">
-                <span>Anime Tshhirt</span>
-                <h5>Zenitsu T-Shirt | Demon Slayer</h5>
-                <div class="star">
-                    <i class="pi pi-star-fill" ></i>
-                    <i class="pi pi-star-fill" ></i>
-                    <i class="pi pi-star-fill" ></i>
-                    <i class="pi pi-star-fill" ></i>
-                    <i class="pi pi-star-half-fill" ></i>
-                </div>
-                <h4>Rs: 499</h4>
-            </div>
-            <i class="pi pi-cart-plus cart" ></i>
+            <i class="pi pi-cart-plus cart" (click)="addToCart(product)"></i>
         </div>
     </div>
 
@@ -173,11 +57,11 @@
 <!-- product section end -->
 
 <!-- Banner section start -->
- <section id="banner" class="section-m1">
+<section id="banner" class="section-m1">
     <h4>Get your Anime T-Shirt</h4>
-    <h2>Up to <span>50%</span>  off  on all our T-Shirt | Limited Offer</h2>
+    <h2>Up to <span>50%</span> off on all our T-Shirt | Limited Offer</h2>
     <button class="normal">Explore More</button>
- </section>
+</section>
 <!-- Banner section end -->
 
 <!-- New Arrivals section start -->
@@ -185,133 +69,17 @@
     <h2>New Arrivals</h2>
     <p>Get Our new Collection Designs</p>
     <div class="pro-container">
-        <div class="pro" >  <!--  Need to add (click)="navigateToShop()" for navigation -->
-            <img src="assets/products/f1.jpg" alt="">
+        <div *ngFor="let product of featuredProduct" class="pro">
+            <img [src]="'assets/products/f1.jpg'" alt="" (click)="navigateToShop(product)">
             <div class="desc">
-                <span>Anime Tshhirt</span>
-                <h5>Zenitsu T-Shirt | Demon Slayer</h5>
+                <span>{{ product.categoryId }}</span> <!-- Assuming product has a categoryName field -->
+                <h5>{{ product.productName }}</h5>
                 <div class="star">
-                    <i class="pi pi-star-fill" ></i>
-                    <i class="pi pi-star-fill" ></i>
-                    <i class="pi pi-star-fill" ></i>
-                    <i class="pi pi-star-fill" ></i>
-                    <i class="pi pi-star-half-fill" ></i>
+                    <i class="pi pi-star-fill" *ngFor="let star of getStars(4)"></i>
                 </div>
-                <h4>Rs: 499</h4>
+                <h4>Rs: {{ product.price }}</h4>
             </div>
-            <i class="pi pi-cart-plus cart" ></i>
-        </div>
-        <div class="pro" >  <!--  Need to add (click)="navigateToShop()" for navigation -->
-            <img src="assets/products/f2.jpg" alt="">
-            <div class="desc">
-                <span>Anime Tshhirt</span>
-                <h5>Zenitsu T-Shirt | Demon Slayer</h5>
-                <div class="star">
-                    <i class="pi pi-star-fill" ></i>
-                    <i class="pi pi-star-fill" ></i>
-                    <i class="pi pi-star-fill" ></i>
-                    <i class="pi pi-star-fill" ></i>
-                    <i class="pi pi-star-half-fill" ></i>
-                </div>
-                <h4>Rs: 499</h4>
-            </div>
-            <i class="pi pi-cart-plus cart" ></i>
-        </div>
-        <div class="pro" >  <!--  Need to add (click)="navigateToShop()" for navigation -->
-            <img src="assets/products/f3.jpg" alt="">
-            <div class="desc">
-                <span>Anime Tshhirt</span>
-                <h5>Zenitsu T-Shirt | Demon Slayer</h5>
-                <div class="star">
-                    <i class="pi pi-star-fill" ></i>
-                    <i class="pi pi-star-fill" ></i>
-                    <i class="pi pi-star-fill" ></i>
-                    <i class="pi pi-star-fill" ></i>
-                    <i class="pi pi-star-half-fill" ></i>
-                </div>
-                <h4>Rs: 499</h4>
-            </div>
-            <i class="pi pi-cart-plus cart" ></i>
-        </div>
-        <div class="pro" >  <!--  Need to add (click)="navigateToShop()" for navigation -->
-            <img src="assets/products/f4.jpg" alt="">
-            <div class="desc">
-                <span>Anime Tshhirt</span>
-                <h5>Zenitsu T-Shirt | Demon Slayer</h5>
-                <div class="star">
-                    <i class="pi pi-star-fill" ></i>
-                    <i class="pi pi-star-fill" ></i>
-                    <i class="pi pi-star-fill" ></i>
-                    <i class="pi pi-star-fill" ></i>
-                    <i class="pi pi-star-half-fill" ></i>
-                </div>
-                <h4>Rs: 499</h4>
-            </div>
-            <i class="pi pi-cart-plus cart" ></i>
-        </div>
-        <div class="pro" >  <!--  Need to add (click)="navigateToShop()" for navigation -->
-            <img src="assets/products/f5.jpg" alt="">
-            <div class="desc">
-                <span>Anime Tshhirt</span>
-                <h5>Zenitsu T-Shirt | Demon Slayer</h5>
-                <div class="star">
-                    <i class="pi pi-star-fill" ></i>
-                    <i class="pi pi-star-fill" ></i>
-                    <i class="pi pi-star-fill" ></i>
-                    <i class="pi pi-star-fill" ></i>
-                    <i class="pi pi-star-half-fill" ></i>
-                </div>
-                <h4>Rs: 499</h4>
-            </div>
-            <i class="pi pi-cart-plus cart" ></i>
-        </div>
-        <div class="pro" >  <!--  Need to add (click)="navigateToShop()" for navigation -->
-            <img src="assets/products/f6.jpg" alt="">
-            <div class="desc">
-                <span>Anime Tshhirt</span>
-                <h5>Zenitsu T-Shirt | Demon Slayer</h5>
-                <div class="star">
-                    <i class="pi pi-star-fill" ></i>
-                    <i class="pi pi-star-fill" ></i>
-                    <i class="pi pi-star-fill" ></i>
-                    <i class="pi pi-star-fill" ></i>
-                    <i class="pi pi-star-half-fill" ></i>
-                </div>
-                <h4>Rs: 499</h4>
-            </div>
-            <i class="pi pi-cart-plus cart" ></i>
-        </div>
-        <div class="pro" >  <!--  Need to add (click)="navigateToShop()" for navigation -->
-            <img src="assets/products/f7.jpg" alt="">
-            <div class="desc">
-                <span>Anime Tshhirt</span>
-                <h5>Zenitsu T-Shirt | Demon Slayer</h5>
-                <div class="star">
-                    <i class="pi pi-star-fill" ></i>
-                    <i class="pi pi-star-fill" ></i>
-                    <i class="pi pi-star-fill" ></i>
-                    <i class="pi pi-star-fill" ></i>
-                    <i class="pi pi-star-half-fill" ></i>
-                </div>
-                <h4>Rs: 499</h4>
-            </div>
-            <i class="pi pi-cart-plus cart" ></i>
-        </div>
-        <div class="pro" >  <!--  Need to add (click)="navigateToShop()" for navigation -->
-            <img src="assets/products/f8.jpg" alt="">
-            <div class="desc">
-                <span>Anime Tshhirt</span>
-                <h5>Zenitsu T-Shirt | Demon Slayer</h5>
-                <div class="star">
-                    <i class="pi pi-star-fill" ></i>
-                    <i class="pi pi-star-fill" ></i>
-                    <i class="pi pi-star-fill" ></i>
-                    <i class="pi pi-star-fill" ></i>
-                    <i class="pi pi-star-half-fill" ></i>
-                </div>
-                <h4>Rs: 499</h4>
-            </div>
-            <i class="pi pi-cart-plus cart" ></i>
+            <i class="pi pi-cart-plus cart" (click)="addToCart(product)"></i>
         </div>
     </div>
 
@@ -336,26 +104,26 @@
 <!-- Small Banner section end -->
 
 <!-- Small Banner 3 section start -->
- <section id="banner3" class="section-p1">
+<section id="banner3" class="section-p1">
     <div class="banner-box">
         <h2>NEW YEAR SALES !</h2>
         <h3>New year collection is here</h3>
     </div>
-    
+
     <div class="banner-box banner-box-2">
         <h2>NEW YEAR SALES !</h2>
         <h3>New year collection is here</h3>
     </div>
-    
+
     <div class="banner-box banner-box-3">
         <h2>NEW YEAR SALES !</h2>
         <h3>New year collection is here</h3>
     </div>
- </section>
+</section>
 <!-- Small Banner 3 section end -->
 
 <!-- News Letter section start -->
- <section id="news-letter" class="section-p1 section-m1">
+<section id="news-letter" class="section-p1 section-m1">
     <div class="newsText">
         <h4>Sign Up for News Letter</h4>
         <p>Get E-mail updates about our latest shop and <span>special offers.</span></p>
@@ -364,9 +132,9 @@
         <input type="text" placeholder="Your Email address">
         <button class="normal">Sign Up</button>
     </div>
- </section>
+</section>
 <!-- News Letter section end -->
 
 <!-- footer component start -->
- <app-footer></app-footer>
+<app-footer></app-footer>
 <!-- footer component end -->

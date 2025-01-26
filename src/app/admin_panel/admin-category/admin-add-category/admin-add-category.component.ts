@@ -16,6 +16,7 @@ import { NgFor } from '@angular/common';
     AdminHeaderComponent,
     ReactiveFormsModule,
     Toast,
+    NgFor,
   ],
   providers: [MessageService],
   templateUrl: './admin-add-category.component.html',
@@ -90,7 +91,7 @@ export class AdminAddCategoryComponent implements OnInit {
 
       this.subscriptions.push(
         this.categoryService
-          .updateCategory(this.editingCategoryId, updatedCategory) // Assumes `updateCategory` exists in `CategoryService`
+          .updateCategory(this.editingCategoryId, updatedCategory)
           .pipe(switchMap(() => this.categoryService.getCategory()))
           .subscribe((response) => {
             this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Category Updated Successfully' });
@@ -106,6 +107,20 @@ export class AdminAddCategoryComponent implements OnInit {
     this.isEditMode = false;
     this.editingCategoryId = null;
   }
+  deleteCategory(categoryId: number): void {
+    if (confirm('Are you sure you want to delete this category?')) {
+      this.subscriptions.push(
+        this.categoryService
+          .deleteCategory(categoryId) // Assumes `deleteCategory` exists in `CategoryService`
+          .pipe(switchMap(() => this.categoryService.getCategory()))
+          .subscribe((response) => {
+            this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Category Deleted Successfully' });
+            this.categoryList = response;
+          })
+      );
+    }
+  }
+  
 
   ngOnDestroy(): void {
     this.subscriptions.forEach((sub) => sub.unsubscribe());

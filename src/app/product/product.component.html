@@ -18,8 +18,8 @@
     </div>
     <div class="single-product-details">
         <h6>Anime T-shirt</h6>
-        <h4>Men's over sized Tshirt</h4>
-        <h2>Rs 499</h2>
+        <h4>{{product.productName}}</h4>
+        <h2>{{product.price}}</h2>
         <select name="" id="">
             <option value="">Select Size</option>
             <option value="">S</option>
@@ -31,9 +31,7 @@
         <button class="normal" (click)="addToCart()">Add to cart</button>
         <h4>Product Description</h4>
         <span>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Optio, voluptas itaque. Soluta nam obcaecati
-            reprehenderit similique, cumque odio fugiat ut saepe voluptas excepturi iure ex, amet doloremque, nostrum
-            doloribus? Nam?
+            {{product.productDescription}}
         </span>
     </div>
 

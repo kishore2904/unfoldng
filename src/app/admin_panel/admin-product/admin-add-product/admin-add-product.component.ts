@@ -4,43 +4,62 @@ import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angula
 import { CategoryService } from '../../../_service/category.service';
 import { Category } from '../../../../model/category.model';
 import { NgFor } from '@angular/common';
+import { Product } from '../../../../model/product.model';
+import { ProductService } from '../../../_service/product.service';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-admin-add-product',
   imports: [
     AdminHeaderComponent,
     ReactiveFormsModule,
-  NgFor],
+    NgFor
+  ],
   templateUrl: './admin-add-product.component.html',
   styleUrl: './admin-add-product.component.scss'
 })
-export class AdminAddProductComponent implements OnInit{
+export class AdminAddProductComponent implements OnInit {
   productForm!: FormGroup;
-  category: Category[] =[];
-  constructor(private fb: FormBuilder,
+  category: Category[] = [];
+  colors: string[] = ['Black', 'Blue', 'Red'];
+  size: string[] = ['S','M','L','XL','XXL'];
+  product!: Product;
+
+  private subscriptions: Subscription[] =[];
+
+  constructor(
+    private fb: FormBuilder, 
     private categoryService: CategoryService,
-  ) { }
+    private productService: ProductService
+  ) {}
+
   ngOnInit(): void {
     this.initializeForm();
     this.getAllCategory();
   }
 
-  initializeForm():void{
+  initializeForm(): void {
     this.productForm = this.fb.group({
       productName: ['', Validators.required],
-      productPrice: ['', Validators.required],
-      size: ['', Validators.required],
-      color: ['', Validators.required],
-      category: ['', Validators.required],
+      price: ['', Validators.required],
+      size: [[], Validators.required],
+      color: [[], Validators.required], // Changed to array
+      categoryId: [null, Validators.required], // Changed to array
       stockQuantity: ['', [Validators.required, Validators.pattern('^[0-9]*$')]],
       productDescription: ['', Validators.required],
-      productImage: [null]
+      imageUrl: [null]
     });
   }
 
   onSubmit(): void {
     if (this.productForm.valid) {
-      console.log('Form submitted', this.productForm.value);
+      this.product = this.productForm.value;
+      console.log('Form submitted', this.product);
+      this.subscriptions.push(this.productService.createNewProduct(this.product,this.product.categoryId).subscribe((response)=>{
+        console.log(response);
+        
+      }))
+      // You can handle the submitted data here
     } else {
       console.log('Form is not valid');
     }
@@ -49,12 +68,12 @@ export class AdminAddProductComponent implements OnInit{
   onReset(): void {
     this.productForm.reset();
   }
-  getAllCategory(): void{
-    this.categoryService.getCategory().subscribe((response)=>{
+
+  getAllCategory(): void {
+    this.categoryService.getCategory().subscribe((response) => {
       this.category = response;
       console.log(this.category);
-      
-    })
+    });
   }
 
 }

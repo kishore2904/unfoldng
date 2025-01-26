@@ -23,16 +23,12 @@
                     </div>
                     <div class="col-md-3 mt-3 mt-md-0">
                       <label class="text-capitalize">product price *</label><br>
-                      <input type="text" formControlName="productPrice">
+                      <input type="text" formControlName="price">
                     </div>
                     <div class="col-md-3 mt-3 mt-md-0">
                       <label class="text-capitalize">Size *</label><br>
-                      <select formControlName="size">
-                        <option selected>Please Select Size</option>
-                        <option>S</option>
-                        <option>M</option>
-                        <option>L</option>
-                        <option>XL</option>
+                      <select formControlName="size" multiple>
+                        <option *ngFor="let clr of size" [value]="clr">{{ clr }}</option>
                       </select>
                     </div>
                   </div>
@@ -40,17 +36,13 @@
                   <div class="row form-desing my-4">
                     <div class="col-md-3 mt-3 mt-md-0">
                       <label class="text-capitalize">Color *</label><br>
-                      <select formControlName="color">
-                        <option selected>Please Select Color</option>
-                        <option>Black</option>
-                        <option>Blue</option>
-                        <option>Red</option>
+                      <select formControlName="color" multiple>
+                        <option *ngFor="let clr of colors" [value]="clr">{{ clr }}</option>
                       </select>
                     </div>
                     <div class="col-md-3 mt-3 mt-md-0">
                       <label class="text-capitalize">Category *</label><br>
-                      <select formControlName="category">
-                        <option selected>Please Select Category</option>
+                      <select formControlName="categoryId">
                         <option *ngFor="let cat of category" [value]="cat.categoryId">{{ cat.categoryName }}</option>
                       </select>
                     </div>
@@ -67,7 +59,7 @@
                     </div>
                     <div class="col-md-6 mt-3 mt-md-0">
                       <label>Upload Photo (150px X 150px)</label><br>
-                      <input type="file" formControlName="productImage">
+                      <input type="file" formControlName="imageUrl">
                     </div>
                   </div>
   
