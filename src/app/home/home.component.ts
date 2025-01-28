@@ -9,6 +9,8 @@ import { UserAuthService } from '../_service/user-auth.service';
 import { Product } from '../../model/product.model';
 import { NgFor } from '@angular/common';
 import { Category } from '../../model/category.model';
+import { LoadingService } from '../_service/loading.service'; // Import LoadingService
+import { LoadingComponent } from '../shared/loader/loader.component';
 
 @Component({
   selector: 'app-home',
@@ -18,59 +20,59 @@ import { Category } from '../../model/category.model';
     ButtonModule,
     RouterModule,
     FooterComponent,
+    LoadingComponent,
     NgFor
   ],
   templateUrl: './home.component.html',
   styleUrl: './home.component.scss'
 })
-export class HomeComponent implements OnInit{
-
-  product:Product[]=[];
-  featuredProduct: Product[] =[];
-  category: Category[] =[];
+export class HomeComponent implements OnInit {
+  product: Product[] = [];
+  featuredProduct: Product[] = [];
+  category: Category[] = [];
 
   constructor(
     private router: Router,
     private productService: ProductService,
     private categoryService: CategoryService,
     private userAuthService: UserAuthService,
-  ){
-  }
+    private loadingService: LoadingService // Inject LoadingService
+  ) {}
 
   ngOnInit(): void {
-    this.productService.getAllProducts().subscribe((response)=>{
-      this.product = response.slice(0,4);
-      this.featuredProduct = response;  
-      console.log(response);
-      
-    })
-  //   if(this.userAuthService.isLoggedIn()){
-  //   console.log("logged in");
-    
-  // }else{
-  //   this.router.navigate(['/login']);
-  // }
+    this.loadingService.show();
+
+    this.productService.getAllProducts().subscribe((response) => {
+      this.loadingService.hide();
+
+      this.product = response.slice(0, 4);
+      this.featuredProduct = response;
+    });
+
+    // Uncomment if you want to check for authentication
+    // if(this.userAuthService.isLoggedIn()){
+    //   console.log("logged in");
+    // }else{
+    //   this.router.navigate(['/login']);
+    // }
   }
 
-  navigateToShop(product:Product){
-    this.router.navigate(['/product',product.categoryId,product.productId]);
-    
+  navigateToShop(product: Product) {
+    this.router.navigate(['/product', product.categoryId, product.productId]);
   }
-  toShop(){
+
+  toShop() {
     this.router.navigate(['/shop']);
   }
 
-  addToCart(product:Product){
+  addToCart(product: Product) {
     console.log("Add product to cart");
-    
   }
+
   getStars(rating: number): number[] {
     const fullStars = Math.floor(rating);
     const halfStar = rating % 1 !== 0 ? 1 : 0;
     const totalStars = [...Array(fullStars).fill(1), ...Array(halfStar).fill(0.5)];
     return totalStars;
   }
-
 }
-
-

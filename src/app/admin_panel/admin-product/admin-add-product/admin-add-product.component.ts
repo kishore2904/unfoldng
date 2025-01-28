@@ -54,9 +54,7 @@ export class AdminAddProductComponent implements OnInit {
   onSubmit(): void {
     if (this.productForm.valid) {
       this.product = this.productForm.value;
-      console.log('Form submitted', this.product);
       this.subscriptions.push(this.productService.createNewProduct(this.product,this.product.categoryId).subscribe((response)=>{
-        console.log(response);
         
       }))
       // You can handle the submitted data here
@@ -72,7 +70,6 @@ export class AdminAddProductComponent implements OnInit {
   getAllCategory(): void {
     this.categoryService.getCategory().subscribe((response) => {
       this.category = response;
-      console.log(this.category);
     });
   }
 

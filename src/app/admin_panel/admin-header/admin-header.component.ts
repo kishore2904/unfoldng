@@ -12,7 +12,6 @@ export class AdminHeaderComponent {
 
   toggleSidebar() {
     this.isSidebarOpen = !this.isSidebarOpen;
-    console.log(this.isSidebarOpen);
     
   }
 

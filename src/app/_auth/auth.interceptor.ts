@@ -29,8 +29,6 @@ import {
   
       return next.handle(req).pipe(
         catchError((error: HttpErrorResponse) => {
-          console.log(error.status);
-  
           if (error.status === 401) {
             this.router.navigate(['/login']);
           } else if (error.status === 403) {

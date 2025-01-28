@@ -43,7 +43,6 @@ export class ForgetPasswordComponent implements OnInit{
     }
     loginUser(): void {
       if (this.loginForm.valid) {
-        console.log(this.loginForm);
         
       } else {
         console.log('Form is invalid. Please check the input fields.');

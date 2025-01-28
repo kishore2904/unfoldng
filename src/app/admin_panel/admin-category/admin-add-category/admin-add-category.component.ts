@@ -47,7 +47,6 @@ export class AdminAddCategoryComponent implements OnInit {
   ngOnInit(): void {
     this.initializeForm();
     this.userToken = this.userAuthService.getToken();
-    console.log(this.userAuthService.getToken());
 
     this.fetchCategories();
   }

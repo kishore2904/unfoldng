@@ -5,6 +5,8 @@ import { HeaderComponent } from './header/header.component';
 import { AuthGuard } from './_auth/auth.guard';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AuthInterceptor } from './_auth/auth.interceptor';
+import { ScrollService } from './_service/scroll.service';
+import { LoadingComponent } from './shared/loader/loader.component';
 
 @Component({
   selector: 'app-root',
@@ -12,11 +14,13 @@ import { AuthInterceptor } from './_auth/auth.interceptor';
   imports: [
     CommonModule,
     RouterOutlet,
-    HeaderComponent
+    HeaderComponent,
+    LoadingComponent
   ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
 })
 export class AppComponent {
   title = 'Unfold';
+  constructor(private scrollService: ScrollService) {}
 }

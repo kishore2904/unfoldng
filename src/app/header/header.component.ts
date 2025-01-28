@@ -32,7 +32,6 @@ export class HeaderComponent implements OnInit{
   public logout(){
      this.userAuthService.clear();
      this.router.navigate(['/home']);
-     console.log("logout");
   }
 
   public userRole():boolean{

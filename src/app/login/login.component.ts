@@ -8,6 +8,8 @@ import { ButtonModule } from 'primeng/button';
 import { Toast } from 'primeng/toast';
 import { MessageService } from 'primeng/api';
 import { NgIf } from '@angular/common';
+import { LoadingService } from '../_service/loading.service';
+import { LoadingComponent } from '../shared/loader/loader.component';
 
 @Component({
   selector: 'app-login',
@@ -16,9 +18,12 @@ import { NgIf } from '@angular/common';
     HttpClientModule,
     ButtonModule,
     Toast,
-    NgIf
+    NgIf,
+    LoadingComponent,
   ],
-  providers:[MessageService],
+  providers:[MessageService,
+    
+  ],
   templateUrl: './login.component.html',
   styleUrl: './login.component.scss',
 })
@@ -33,6 +38,7 @@ export class LoginComponent implements OnInit {
     private readonly userService: UserService,
     private readonly userAuthService: UserAuthService,
     private messageService: MessageService,
+    private loadingService:LoadingService,
     
   ) {}
 
@@ -55,12 +61,9 @@ export class LoginComponent implements OnInit {
 
   loginUser(): void {
     if (this.loginForm.valid) {
+      this.loadingService.show();
       this.userService.loginUser(this.loginForm.value).subscribe((response:any)=>{
-
-        console.log(response.jwtToken);
-        console.log(response);
-        
-
+        this.loadingService.hide();
         this.userAuthService.setToken(response.jwtToken);
         this.userAuthService.setRoles(response.users.roles)
         this.userAuthService.setUserId(response.users.user_id);
@@ -94,14 +97,15 @@ export class LoginComponent implements OnInit {
 
 registerUser():void{
   if(this.registerForm.valid){
+    this.loadingService.show();
     this.userService.userRegister(this.registerForm.value).subscribe((response)=>{
+      this.loadingService.hide();
       this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Account created Successful. Please login again' });
       setTimeout(()=>{
         this.router.navigate(['/home']);
       },2000);
     },(error)=>{
       if(error.error.type !=null){
-        console.log(error.error.type);
         this.loginForm.reset();
         this.messageService.add({ severity: 'error', summary: 'Error', detail: error.error.title });
       }
