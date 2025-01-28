@@ -38,13 +38,13 @@ export class LoginComponent implements OnInit {
 
   initialiseForm(): void {
     this.loginForm = this.formBuilder.group({
-      userName: ['', [Validators.required]],
+      userName: ['', [Validators.required,Validators.email]],
       userPassword: ['', [Validators.required, Validators.minLength(6)]],
     });
     this.registerForm = this.formBuilder.group({
       userName:['',[Validators.required]],
       password:['',[Validators.required]],
-      emailAddress:['',[Validators.required]],
+      emailAddress:['',[Validators.required,Validators.email]],
       confirmUserPassword: ['',[Validators.required]]
     });
   }
@@ -99,6 +99,13 @@ registerUser():void{
       setTimeout(()=>{
         this.router.navigate(['/home']);
       },2000);
+    },(error)=>{
+      if(error.error.type !=null){
+        console.log(error.error.type);
+        this.loginForm.reset();
+        this.messageService.add({ severity: 'error', summary: 'Error', detail: error.error.title });
+      }
+      
     })
   }
 

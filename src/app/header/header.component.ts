@@ -19,12 +19,6 @@ export class HeaderComponent implements OnInit{
     public userService: UserService
   ){}
   ngOnInit(): void {
-    console.log("UserId: "+this.userAuthService.getUserId());
-    
-    
-  }
-  check(){
-    console.log("Check");
     
   }
   toggleMenu(): void {
@@ -43,6 +37,9 @@ export class HeaderComponent implements OnInit{
 
   public userRole():boolean{
     return this.userService.roleMatch(['Admin']);
+  }
+  isActive(route: string): boolean {
+    return this.router.url === route;
   }
 
 }
