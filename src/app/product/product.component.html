@@ -1,3 +1,5 @@
+<app-loader></app-loader>
+<p-toast position="top-center" />
 <section id="product-details" class="section-p1">
     <div class="single-product-image">
         <img src="assets/products/f1.jpg" width="100%" id="mainImage" alt="Main Image">
@@ -18,8 +20,9 @@
     </div>
     <div class="single-product-details">
         <h6>Anime T-shirt</h6>
-        <h4>{{product?.productName}}</h4>
-        <h2>{{product?.price}}</h2>
+        <h4><i class="pi pi-heart cart1" style="font-size: 1.3rem; color: #000000" (click)="addToWishlist(product)"></i>
+            {{product?.productName}} </h4>
+        <h2>Rs: {{product?.price}}</h2>
         <select name="" id="">
             <option value="">Select Size</option>
             <option value="">S</option>
@@ -113,5 +116,5 @@
 <!-- New Arrivals section end -->
 
 <!-- Footer Section start -->
- <app-footer></app-footer>
+<app-footer></app-footer>
 <!-- Footer Section end -->

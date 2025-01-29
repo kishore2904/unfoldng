@@ -9,8 +9,10 @@ import { UserAuthService } from '../_service/user-auth.service';
 import { Product } from '../../model/product.model';
 import { NgFor } from '@angular/common';
 import { Category } from '../../model/category.model';
-import { LoadingService } from '../_service/loading.service'; // Import LoadingService
+import { LoadingService } from '../_service/loading.service';
 import { LoadingComponent } from '../shared/loader/loader.component';
+import { Toast } from 'primeng/toast';
+import { MessageService } from 'primeng/api';
 
 @Component({
   selector: 'app-home',
@@ -21,7 +23,10 @@ import { LoadingComponent } from '../shared/loader/loader.component';
     RouterModule,
     FooterComponent,
     LoadingComponent,
-    NgFor
+    NgFor,
+    Toast
+  ],
+  providers: [MessageService,
   ],
   templateUrl: './home.component.html',
   styleUrl: './home.component.scss'
@@ -31,16 +36,23 @@ export class HomeComponent implements OnInit {
   featuredProduct: Product[] = [];
   category: Category[] = [];
 
+
   constructor(
     private router: Router,
     private productService: ProductService,
     private categoryService: CategoryService,
     private userAuthService: UserAuthService,
-    private loadingService: LoadingService // Inject LoadingService
-  ) {}
+    private loadingService: LoadingService,
+    private messageService: MessageService
+  ) { }
 
   ngOnInit(): void {
     this.loadingService.show();
+
+    this.categoryService.getCategory().subscribe((response) => {
+      this.loadingService.hide();
+      this.category = response;
+    })
 
     this.productService.getAllProducts().subscribe((response) => {
       this.loadingService.hide();
@@ -56,6 +68,10 @@ export class HomeComponent implements OnInit {
     //   this.router.navigate(['/login']);
     // }
   }
+  getCategoryName(categoryId: number): string | undefined {
+    const category = this.category.find((cat) => cat.categoryId === categoryId);
+    return category?.categoryName;
+  }
 
   navigateToShop(product: Product) {
     this.router.navigate(['/product', product.categoryId, product.productId]);
@@ -66,7 +82,13 @@ export class HomeComponent implements OnInit {
   }
 
   addToCart(product: Product) {
-    console.log("Add product to cart");
+    console.log(product);
+
+    if (this.userAuthService.isLoggedIn()) {
+      const userId: string = this.userAuthService.getUserId();
+    } else {
+      this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Please Login to add items to cart' });
+    }
   }
 
   getStars(rating: number): number[] {
@@ -75,4 +97,14 @@ export class HomeComponent implements OnInit {
     const totalStars = [...Array(fullStars).fill(1), ...Array(halfStar).fill(0.5)];
     return totalStars;
   }
+
+  addToWishlist(product: Product) {
+    if (this.userAuthService.isLoggedIn()) {
+      console.log(product);
+
+    } else {
+      this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Please Login to add items to wishlist' });
+    }
+  }
+
 }

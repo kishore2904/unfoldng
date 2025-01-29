@@ -1,3 +1,5 @@
+<app-loader></app-loader>
+<p-toast position="top-center" />
 <!-- hero section start -->
 <section id="hero">
     <h4>Trade In Offer</h4>
@@ -40,19 +42,19 @@
     <p>Get Our new Collection Designs</p>
     <div class="pro-container">
         <div *ngFor="let product of product" class="pro">
-            <img [src]="'assets/products/f1.jpg'" alt="" (click)="navigateToShop(product)">
+            <img [src]="product.imageUrl || 'assets/products/f1.jpg'" alt="" (click)="navigateToShop(product)">
             <div class="desc">
-                <span>{{ product.categoryId }}</span>
+                <span>{{ getCategoryName(product.categoryId) }}</span>
                 <h5>{{ product.productName }}</h5>
                 <div class="star">
                     <i class="pi pi-star-fill" *ngFor="let star of getStars(4)"></i>
                 </div>
                 <h4>Rs: {{ product.price }}</h4>
             </div>
+            <i class="pi pi-heart cart1" style="font-size: 1.3rem; color: #000000" (click)="addToWishlist(product)"></i>
             <i class="pi pi-cart-plus cart" (click)="addToCart(product)"></i>
         </div>
     </div>
-
 </section>
 <!-- product section end -->
 
@@ -60,7 +62,7 @@
 <section id="banner" class="section-m1">
     <h4>Get your Anime T-Shirt</h4>
     <h2>Up to <span>50%</span> off on all our T-Shirt | Limited Offer</h2>
-    <button class="normal">Explore More</button>
+    <button class="normal" (click)="toShop()">Explore More</button>
 </section>
 <!-- Banner section end -->
 
@@ -72,17 +74,17 @@
         <div *ngFor="let product of featuredProduct" class="pro">
             <img [src]="'assets/products/f1.jpg'" alt="" (click)="navigateToShop(product)">
             <div class="desc">
-                <span>{{ product.categoryId }}</span> <!-- Assuming product has a categoryName field -->
+                <span>{{ getCategoryName(product.categoryId) }}</span>
                 <h5>{{ product.productName }}</h5>
                 <div class="star">
                     <i class="pi pi-star-fill" *ngFor="let star of getStars(4)"></i>
                 </div>
                 <h4>Rs: {{ product.price }}</h4>
             </div>
+            <i class="pi pi-heart cart1" style="font-size: 1.3rem; color: #000000" (click)="addToWishlist(product)"></i>
             <i class="pi pi-cart-plus cart" (click)="addToCart(product)"></i>
         </div>
     </div>
-
 </section>
 <!-- New Arrivals section end -->
 
@@ -92,13 +94,13 @@
         <h4>Combo Deals</h4>
         <h2>Get 5 T-Shirt in combo</h2>
         <span>The best anime Tshirt is on unfold</span>
-        <button class="white">Learn More</button>
+        <button class="white" (click)="toShop()">Learn More</button>
     </div>
     <div class="banner-box banner-box-2">
         <h4>Combo Deals</h4>
         <h2>Get 5 T-Shirt in combo</h2>
         <span>The best anime Tshirt is on unfold</span>
-        <button class="white">Learn More</button>
+        <button class="white" (click)="toShop()">Learn More</button>
     </div>
 </section>
 <!-- Small Banner section end -->
@@ -125,12 +127,12 @@
 <!-- News Letter section start -->
 <section id="news-letter" class="section-p1 section-m1">
     <div class="newsText">
-        <h4>Sign Up for News Letter</h4>
-        <p>Get E-mail updates about our latest shop and <span>special offers.</span></p>
+        <h4>Subscribe for News Letter</h4>
+        <p>Get E-mail updates about our latest arrivals and <span>special offers.</span></p>
     </div>
     <div class="form">
         <input type="text" placeholder="Your Email address">
-        <button class="normal">Sign Up</button>
+        <button class="normal">Subscribe</button>
     </div>
 </section>
 <!-- News Letter section end -->

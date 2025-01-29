@@ -1,4 +1,5 @@
-<!-- hero section start -->
+<app-loader></app-loader>
+<p-toast position="top-center" /><!-- hero section start -->
 <section id="page-header">
     <h2>Super value Deals</h2>
     <p>Save more with coupons & up to 50% off!</p>
@@ -11,20 +12,20 @@
         <div *ngFor="let product of product" class="pro">
             <img [src]="'assets/products/f1.jpg'" alt="" (click)="navigateToShop(product)">
             <div class="desc">
-                <span>{{ product.categoryId }}</span>
+                <span>{{ getCategoryName(product.categoryId) }}</span>
                 <h5>{{ product.productName }}</h5>
                 <div class="star">
                     <i class="pi pi-star-fill" *ngFor="let star of getStars(4)"></i>
                 </div>
                 <h4>Rs: {{ product.price }}</h4>
             </div>
+            <i class="pi pi-heart cart1" style="font-size: 1.3rem; color: #000000" (click)="addToWishlist(product)"></i>
             <i class="pi pi-cart-plus cart" (click)="addToCart(product)"></i>
         </div>
     </div>
 
 </section>
 <!-- product section end -->
-
 <!-- footer section start -->
- <app-footer></app-footer>
+<app-footer></app-footer>
 <!-- footer section end -->

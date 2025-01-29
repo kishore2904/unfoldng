@@ -5,72 +5,42 @@
   <div>
     <ul id="navbar" [class.open]="isMenuOpen">
       <li>
-        <a 
-          [routerLink]="['/home']" 
-          [class.active]="isActive('/home')" 
-          (click)="toggleMenu()">Home</a>
+        <a [routerLink]="['/home']" [class.active]="isActive('/home')" (click)="toggleMenu()">Home</a>
       </li>
       <li>
-        <a 
-          [routerLink]="['/shop']" 
-          [class.active]="isActive('/shop')" 
-          (click)="toggleMenu()">Shop</a>
+        <a [routerLink]="['/shop']" [class.active]="isActive('/shop')" (click)="toggleMenu()">Shop</a>
       </li>
       <li>
-        <a 
-          [routerLink]="['/about']" 
-          [class.active]="isActive('/about')" 
-          (click)="toggleMenu()">About Us</a>
+        <a [routerLink]="['/about']" [class.active]="isActive('/about')" (click)="toggleMenu()">About Us</a>
       </li>
       <li>
-        <a 
-          [routerLink]="['/contact']" 
-          [class.active]="isActive('/contact')" 
-          (click)="toggleMenu()">Contact</a>
+        <a [routerLink]="['/contact']" [class.active]="isActive('/contact')" (click)="toggleMenu()">Contact</a>
       </li>
       <li>
-        <a 
-          [routerLink]="['/cart']" 
-          [class.active]="isActive('/cart')" 
-          (click)="toggleMenu()">Cart</a>
+        <a [routerLink]="['/cart']" [class.active]="isActive('/cart')" (click)="toggleMenu()">Cart</a>
       </li>
       <li>
-        <a 
-          [routerLink]="['/profile']" 
-          [class.active]="isActive('/profile')" 
-          (click)="toggleMenu()">MyAccount</a>
+        <a [routerLink]="['/wishlist']" [class.active]="isActive('/wishlist')" (click)="toggleMenu()">WishList</a>
+      </li>
+      <li>
+        <a [routerLink]="['/profile']" [class.active]="isActive('/profile')" (click)="toggleMenu()">MyAccount</a>
       </li>
       <li *ngIf="userRole()">
-        <a 
-          [routerLink]="['/admin']" 
-          [class.active]="isActive('/admin')">Admin Dashboard</a>
+        <a [routerLink]="['/admin']" [class.active]="isActive('/admin')" (click)="toggleMenu()">Admin Dashboard</a>
       </li>
       <li *ngIf="!isLoggedIn()">
-        <button 
-          type="button" 
-          class="btn btn-success" 
-          (click)="toggleMenu()" 
-          [routerLink]="['/login']">Login</button>
+        <button type="button" class="btn btn-success" (click)="toggleMenu()" [routerLink]="['/login']">Login</button>
       </li>
       <li *ngIf="isLoggedIn()">
-        <button 
-          type="button" 
-          class="btn btn-danger" 
-          (click)="toggleMenu()" 
-          (click)="logout()">Logout</button>
+        <button type="button" class="btn btn-danger" (click)="toggleMenu()" (click)="logout()">Logout</button>
       </li>
     </ul>
-    
+
   </div>
   <div id="mobile">
     <a href="#"><i class="pi pi-shopping-bag" style="font-size: 2rem"></i></a>
-    <i
-      id="bar"
-      class="pi pi-bars"
-      *ngIf="!isMenuOpen"
-      (click)="toggleMenu()"
-    ></i>
+    <i id="bar" class="pi pi-bars" *ngIf="!isMenuOpen" (click)="toggleMenu()"></i>
     <i class="pi pi-times" *ngIf="isMenuOpen" (click)="toggleMenu()"></i>
   </div>
-  
+
 </section>
