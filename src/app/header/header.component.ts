@@ -6,35 +6,35 @@ import { NgIf } from '@angular/common';
 
 @Component({
   selector: 'app-header',
-  standalone:true,
-  imports: [RouterModule,NgIf],
+  standalone: true,
+  imports: [RouterModule, NgIf],
   templateUrl: './header.component.html',
   styleUrl: './header.component.scss'
 })
-export class HeaderComponent implements OnInit{
+export class HeaderComponent implements OnInit {
   isMenuOpen = false;
 
   constructor(private userAuthService: UserAuthService,
     private router: Router,
     public userService: UserService
-  ){}
+  ) { }
   ngOnInit(): void {
-    
+
   }
   toggleMenu(): void {
     this.isMenuOpen = !this.isMenuOpen;
   }
 
-  public isLoggedIn(){
+  public isLoggedIn() {
     return this.userAuthService.isLoggedIn();
   }
 
-  public logout(){
-     this.userAuthService.clear();
-     this.router.navigate(['/home']);
+  public logout() {
+    this.userAuthService.clear();
+    this.router.navigate(['/home']);
   }
 
-  public userRole():boolean{
+  public userRole(): boolean {
     return this.userService.roleMatch(['Admin']);
   }
   isActive(route: string): boolean {

@@ -13,6 +13,9 @@ import { LoadingService } from '../_service/loading.service';
 import { LoadingComponent } from '../shared/loader/loader.component';
 import { Toast } from 'primeng/toast';
 import { MessageService } from 'primeng/api';
+import { Cart } from '../../model/cart.model';
+import { CartService } from '../_service/cart.service';
+import { HeaderComponent } from '../header/header.component';
 
 @Component({
   selector: 'app-home',
@@ -24,7 +27,8 @@ import { MessageService } from 'primeng/api';
     FooterComponent,
     LoadingComponent,
     NgFor,
-    Toast
+    Toast,
+    HeaderComponent
   ],
   providers: [MessageService,
   ],
@@ -35,6 +39,7 @@ export class HomeComponent implements OnInit {
   product: Product[] = [];
   featuredProduct: Product[] = [];
   category: Category[] = [];
+  cart!: Cart;
 
 
   constructor(
@@ -43,7 +48,8 @@ export class HomeComponent implements OnInit {
     private categoryService: CategoryService,
     private userAuthService: UserAuthService,
     private loadingService: LoadingService,
-    private messageService: MessageService
+    private messageService: MessageService,
+    private cartService: CartService,
   ) { }
 
   ngOnInit(): void {
@@ -82,10 +88,28 @@ export class HomeComponent implements OnInit {
   }
 
   addToCart(product: Product) {
-    console.log(product);
+    
 
     if (this.userAuthService.isLoggedIn()) {
       const userId: string = this.userAuthService.getUserId();
+      const cart = new Cart();
+      cart.productId = product.productId;
+      cart.userId = userId;
+      cart.quantity = 1;
+      cart.createdAt = new Date().toISOString();
+      cart.variantId = 1001;
+      console.log(cart);
+
+      this.cartService.addToCart(cart).subscribe((response)=>{
+        this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Product Added to cart.' });
+      },(error)=>{
+        if (error.error.type == 'R001') {
+          
+          this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Internal Server Error' });
+        }
+      })
+      
+      
     } else {
       this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Please Login to add items to cart' });
     }

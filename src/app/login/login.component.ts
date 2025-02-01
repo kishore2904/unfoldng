@@ -10,6 +10,7 @@ import { MessageService } from 'primeng/api';
 import { NgIf } from '@angular/common';
 import { LoadingService } from '../_service/loading.service';
 import { LoadingComponent } from '../shared/loader/loader.component';
+import { HeaderComponent } from '../header/header.component';
 
 @Component({
   selector: 'app-login',
@@ -20,6 +21,7 @@ import { LoadingComponent } from '../shared/loader/loader.component';
     Toast,
     NgIf,
     LoadingComponent,
+    HeaderComponent
   ],
   providers: [MessageService,
   ],
@@ -79,7 +81,7 @@ export class LoginComponent implements OnInit {
         }
       }, (error) => {
         if (error.error.type == 'R001') {
-          console.log(error.error.type);
+          this.loadingService.hide();
           this.loginForm.reset();
           this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Invalid Credentials' });
         }

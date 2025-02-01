@@ -11,6 +11,7 @@ import { LoadingService } from '../_service/loading.service';
 import { Toast } from 'primeng/toast';
 import { MessageService } from 'primeng/api';
 import { LoadingComponent } from '../shared/loader/loader.component';
+import { HeaderComponent } from '../header/header.component';
 
 @Component({
   selector: 'app-shop',
@@ -20,7 +21,8 @@ import { LoadingComponent } from '../shared/loader/loader.component';
     RouterModule,
     NgFor,
     LoadingComponent,
-    Toast
+    Toast,
+    HeaderComponent
   ],
   providers: [MessageService,
   ],

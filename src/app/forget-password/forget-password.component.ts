@@ -6,12 +6,14 @@ import { Router, ActivatedRoute } from '@angular/router';
 import { UserAuthService } from '../_service/user-auth.service';
 import { UserService } from '../_service/user.service';
 import { NgIf } from '@angular/common';
+import { HeaderComponent } from '../header/header.component';
 @Component({
   selector: 'app-forget-password',
   imports: [
     Toast,
     ReactiveFormsModule,
-    NgIf
+    NgIf,
+    HeaderComponent
   ],
   providers: [MessageService],
   templateUrl: './forget-password.component.html',

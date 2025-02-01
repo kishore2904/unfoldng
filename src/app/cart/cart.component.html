@@ -1,52 +1,36 @@
+<app-loader></app-loader>
+<app-header></app-header>
+<p-toast position="top-center" />
 <section id="cart" class="section-p1">
-    <table width="100%">
-        <thead>
-            <tr>
-                <td>Remove</td>
-                <td>Image</td>
-                <td>Product</td>
-                <td>Price</td>
-                <td>Quantity</td>
-                <td>Sub Total</td>
-                
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td><i class="pi pi-times"></i></td>
-                <td><img src="assets/products/f1.jpg" alt=""></td>
-                <td>Zenitsu T-Shirt | Demon Slayer</td>
-                <td>Rs: 499</td>
-                <td><input type="number" value="1" name="" id=""></td>
-                <td>Rs: 499</td>
-            </tr>
-            <tr>
-                <td><i class="pi pi-times"></i></td>
-                <td><img src="assets/products/f2.jpg" alt=""></td>
-                <td>Zenitsu T-Shirt | Demon Slayer</td>
-                <td>Rs: 499</td>
-                <td><input type="number" value="1" id=""></td>
-                <td>Rs: 499</td>
-            </tr>
-            <tr>
-                <td><i class="pi pi-times"></i></td>
-                <td><img src="assets/products/f3.jpg" alt=""></td>
-                <td>Zenitsu T-Shirt | Demon Slayer</td>
-                <td>Rs: 499</td>
-                <td><input type="number" value="1" name="" id=""></td>
-                <td>Rs: 499</td>
-            </tr>
-            <tr>
-                <td><i class="pi pi-times"></i></td>
-                <td><img src="assets/products/f4.jpg" alt=""></td>
-                <td>Zenitsu T-Shirt | Demon Slayer</td>
-                <td>Rs: 499</td>
-                <td><input type="number" value="1"  name="" id=""></td>
-                <td>Rs: 499</td>
-            </tr>
-        </tbody>
-    </table>
-
+    <form *ngIf="cartForm" [formGroup]="cartForm">
+        <table width="100%">
+            <thead>
+                <tr>
+                    <td>Image</td>
+                    <td>Product</td>
+                    <td>Price</td>
+                    <td>Quantity</td>
+                    <td>Sub Total</td>
+                    <td>Remove</td>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let item of cart">
+                    <td><img src="assets/products/f1.jpg" alt=""></td>
+                    <td>{{ getProductName(item.productId) }}</td>
+                    <td>{{ getProductPrice(item.productId) }}</td>
+                    <td>
+                        <input type="number" 
+                               [formControlName]="item.productId.toString()" 
+                               (input)="onQuantityChange(item.productId, $event)" />
+                    </td>
+                    <td>{{ getSubTotal(item.productId, cartForm.get(item.productId.toString())?.value || 1) }}</td>
+                    <td><i class="pi pi-times"></i></td>
+                </tr>
+            </tbody>
+        </table>
+        <p *ngIf="errorMessage" style="color: red;">{{ errorMessage }}</p>
+    </form>
 </section>
 
 <section id="cart-add" class="section-p1">
@@ -54,15 +38,16 @@
         <h3>Apply Coupon</h3>
         <div>
             <input type="text" placeholder="Enter your coupon">
-            <button class="normal">Apply</button>
+            <button class="normal" (click)="applyCoupon()">Apply</button>
         </div>
+        <p *ngIf="errorMessage" style="color: red;">{{ errorMessage }}</p>
     </div>
     <div id="sub-total">
         <h3>Cart Total</h3>
         <table>
             <tr>
                 <td>Cart SubTotal</td>
-                <td>Rs: 999</td>
+                <td>Rs: {{ totalAmount }}</td>
             </tr>
             <tr>
                 <td>Shipping</td>
@@ -70,9 +55,10 @@
             </tr>
             <tr>
                 <td><strong>Total</strong></td>
-                <td><strong>Rs: 999</strong></td>
+                <td><strong>Rs: {{ totalAmountWithDiscount }}</strong></td>
             </tr>
         </table>
         <button class="normal">Proceed to checkout</button>
     </div>
 </section>
+

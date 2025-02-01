@@ -8,6 +8,7 @@ import { API_PATH, REST_API } from '../utils/constants';
   providedIn: 'root'
 })
 export class ProductService {
+  
 
   constructor(private httpClient:HttpClient) { }
   private createAuthorizationHeader(): HttpHeaders {
@@ -32,4 +33,5 @@ export class ProductService {
     const headers = this.createAuthorizationHeader();
     return this.httpClient.get<Product>(`${API_PATH}${REST_API}/${categoryId}/${productId}`,{headers});
   }
+  
 }

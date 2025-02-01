@@ -14,7 +14,6 @@ import { LoadingComponent } from './shared/loader/loader.component';
   imports: [
     CommonModule,
     RouterOutlet,
-    HeaderComponent,
     LoadingComponent
   ],
   templateUrl: './app.component.html',

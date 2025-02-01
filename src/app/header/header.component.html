@@ -22,7 +22,7 @@
       <li>
         <a [routerLink]="['/wishlist']" [class.active]="isActive('/wishlist')" (click)="toggleMenu()">WishList</a>
       </li>
-      <li>
+      <li *ngIf="isLoggedIn()">
         <a [routerLink]="['/profile']" [class.active]="isActive('/profile')" (click)="toggleMenu()">MyAccount</a>
       </li>
       <li *ngIf="userRole()">
