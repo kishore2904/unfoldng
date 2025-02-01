@@ -1,6 +1,7 @@
 <app-loader></app-loader>
 <app-header></app-header>
 <p-toast position="top-center" />
+<p-confirmdialog />
 <section id="cart" class="section-p1">
     <form *ngIf="cartForm" [formGroup]="cartForm">
         <table width="100%">
@@ -20,27 +21,28 @@
                     <td>{{ getProductName(item.productId) }}</td>
                     <td>{{ getProductPrice(item.productId) }}</td>
                     <td>
-                        <input type="number" 
-                               [formControlName]="item.productId.toString()" 
-                               (input)="onQuantityChange(item.productId, $event)" />
+                        <input type="number" [formControlName]="item.productId.toString()"
+                            (input)="onQuantityChange(item.productId, $event)" />
                     </td>
                     <td>{{ getSubTotal(item.productId, cartForm.get(item.productId.toString())?.value || 1) }}</td>
-                    <td><i class="pi pi-times"></i></td>
+                    <td (click)="removeItem($event,item)"><i class="pi pi-times"></i></td>
                 </tr>
             </tbody>
         </table>
-        <p *ngIf="errorMessage" style="color: red;">{{ errorMessage }}</p>
     </form>
 </section>
 
 <section id="cart-add" class="section-p1">
+
     <div id="coupon">
-        <h3>Apply Coupon</h3>
-        <div>
-            <input type="text" placeholder="Enter your coupon">
-            <button class="normal" (click)="applyCoupon()">Apply</button>
-        </div>
-        <p *ngIf="errorMessage" style="color: red;">{{ errorMessage }}</p>
+        <form [formGroup]="couponForm">
+            <h3>Apply Coupon</h3>
+            <div>
+                <input type="text" placeholder="Enter your coupon" formControlName="code">
+                <button class="normal" (click)="applyCoupon()">Apply</button>
+            </div>
+            <p *ngIf="errorMessage" style="color: red;">{{ errorMessage }}</p>
+        </form>
     </div>
     <div id="sub-total">
         <h3>Cart Total</h3>
@@ -58,7 +60,6 @@
                 <td><strong>Rs: {{ totalAmountWithDiscount }}</strong></td>
             </tr>
         </table>
-        <button class="normal">Proceed to checkout</button>
+        <button class="normal" (click)="proceedToCheckOut()">Proceed to checkout</button>
     </div>
 </section>
-

@@ -1,0 +1,105 @@
+<app-admin-header></app-admin-header>
+<div class="container-fluid px-0">
+    <div class="main">
+        <div class="tab-content">
+            <div class="tab-pane fade show active px-4" id="admin-dashboard">
+                <div class="container-fluid">
+                    <div class="row">
+                        <div class="info-pages mb-3">
+                            <h3 class="text-capitalize">admin dashboard</h3>
+                            <p class="text-capitalize h6">home /<span> coupon</span></p>
+                        </div>
+                    </div>
+                </div>
+                <div class="container-fluid">
+                    <div class="row justify-content-between my-4">
+                      <div class="col shadow bg-white p-4 rounded">
+                        <h4 class="text-capitalize mb-3">add new coupon</h4>
+                        <form [formGroup]="couponForm" (ngSubmit)="onSubmit()">
+                          <div class="row form-desing my-4">
+                            <div class="col-md-3 mt-2 mt-md-0">
+                              <label class="text-capitalize">coupon code *</label><br>
+                              <input formControlName="code" type="text" class="form-control">
+                            </div>
+                            <div class="col-md-3 mt-3 mt-md-0">
+                              <label class="text-capitalize">coupon price *</label><br>
+                              <input formControlName="discountAmount" type="text" class="form-control">
+                            </div>
+                            <div class="col-md-3 mt-3 mt-md-0">
+                              <label class="text-capitalize">Type *</label><br>
+                              <select formControlName="discountType" class="form-control">
+                                <option value="Amount">AMOUNT</option>
+                                <option value="Discount">DISCOUNT</option>
+                              </select>
+                            </div>
+                            <div class="col-md-3 mt-3 mt-md-0">
+                              <label class="text-capitalize">Valid From *</label><br>
+                              <p-datepicker formControlName="validFrom"></p-datepicker>
+                            </div>
+                            <div class="col-md-3 mt-3 mt-md-0">
+                              <label class="text-capitalize">Valid Till *</label><br>
+                              <p-datepicker formControlName="validTill"></p-datepicker>
+                            </div>
+                            <div class="col-md-3 mt-3 mt-md-0">
+                              <label class="text-capitalize">Active *</label><br>
+                              <select formControlName="isActive" class="form-control">
+                                <option value="YES">YES</option>
+                                <option value="NO">NO</option>
+                              </select>
+                            </div>
+                          </div>
+                  
+                          <div class="row form-desing my-4">
+                            <div class="col">
+                              <button class="btn save text-white py-2 px-5" type="submit" [disabled]="couponForm.invalid">Save</button>
+                              <button class="btn py-2 px-5" type="button" (click)="onReset()">Reset</button>
+                            </div>
+                          </div>
+                        </form>
+                      </div>
+                    </div>
+                  </div>
+                  
+                <div class="container-fluid">
+                    <div class="row justify-content-between my-4">
+                      <div class="col shadow bg-white p-4 rounded">
+                        <h4 class="text-capitalize mb-3">all coupons</h4>
+                        <div class="table-responsive">
+                          <table class="table my-4 table-hover table-striped w-auto">
+                            <thead>
+                              <tr>
+                                <th>S.No</th>
+                                <th>Coupon Name</th>
+                                <th>Value</th>
+                                <th>Type</th>
+                                <th>Valid From</th>
+                                <th>Valid Till</th>
+                                <th>Active</th>
+                                <th></th>
+                                <th></th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              <tr 
+                              *ngFor="let coupon of couponList; let i = index; "
+                              >
+                                <td>{{i+1}}</td>
+                                <td> {{coupon.code}} </td>
+                                <td>{{coupon.discountAmount}}</td>
+                                <td>{{coupon.discountType}}</td>
+                                <td>{{coupon.validFrom}}</td>
+                                <td>{{coupon.validTill}}</td>
+                                <td>{{coupon.isActive}}</td>
+                                <td><i class="pi pi-pencil" ></i></td>
+                                <td><i class="pi pi-times" ></i></td>
+                              </tr>
+                            </tbody>
+                          </table>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+            </div>
+        </div>
+    </div>
+</div>

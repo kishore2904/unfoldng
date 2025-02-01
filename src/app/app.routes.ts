@@ -15,6 +15,8 @@ import { AdminAddCategoryComponent } from './admin_panel/admin-category/admin-ad
 import { AdminAddProductComponent } from './admin_panel/admin-product/admin-add-product/admin-add-product.component';
 import { ForgetPasswordComponent } from './forget-password/forget-password.component';
 import { WishlistComponent } from './wishlist/wishlist.component';
+import { CouponComponent } from './admin_panel/coupon/coupon.component';
+import { CheckoutComponent } from './checkout/checkout.component';
 
 
 export const routes: Routes = [
@@ -34,5 +36,7 @@ export const routes: Routes = [
     { path: 'admin-add-product', component: AdminAddProductComponent, canActivate: [AuthGuard], data: { roles: ['Admin'] } },
     { path: 'forget-password', component: ForgetPasswordComponent },
     { path: 'wishlist', component: WishlistComponent },
+    { path: 'admin-add-coupon', component:CouponComponent},
+    { path: 'checkout', component:CheckoutComponent}
 
 ];

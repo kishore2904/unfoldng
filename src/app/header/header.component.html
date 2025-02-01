@@ -16,10 +16,10 @@
       <li>
         <a [routerLink]="['/contact']" [class.active]="isActive('/contact')" (click)="toggleMenu()">Contact</a>
       </li>
-      <li>
+      <li *ngIf="isLoggedIn()">
         <a [routerLink]="['/cart']" [class.active]="isActive('/cart')" (click)="toggleMenu()">Cart</a>
       </li>
-      <li>
+      <li *ngIf="isLoggedIn()">
         <a [routerLink]="['/wishlist']" [class.active]="isActive('/wishlist')" (click)="toggleMenu()">WishList</a>
       </li>
       <li *ngIf="isLoggedIn()">

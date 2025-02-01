@@ -4,13 +4,14 @@ import { CartService } from '../_service/cart.service';
 import { ProductService } from '../_service/product.service';
 import { Product } from '../../model/product.model';
 import { Cart } from '../../model/cart.model';
-import { MessageService } from 'primeng/api';
+import { ConfirmationService, MessageService } from 'primeng/api';
 import { Toast } from 'primeng/toast';
 import { LoadingComponent } from '../shared/loader/loader.component';
 import { NgFor, NgIf } from '@angular/common';
 import { FormGroup, FormBuilder, Validators, ReactiveFormsModule } from '@angular/forms';
 import { CouponService } from '../_service/coupon.service';  
 import { HeaderComponent } from '../header/header.component';
+import { ConfirmDialogModule } from 'primeng/confirmdialog';
 
 @Component({
   selector: 'app-cart',
@@ -20,11 +21,13 @@ import { HeaderComponent } from '../header/header.component';
     Toast,
     NgFor,
     NgIf,
-    HeaderComponent
+    HeaderComponent,
+    ConfirmDialogModule
   ],
   standalone: true,
   providers: [
     MessageService,
+    ConfirmationService
   ],
   templateUrl: './cart.component.html',
   styleUrls: ['./cart.component.scss']
@@ -37,8 +40,10 @@ export class CartComponent implements OnInit {
   errorMessage: string = ''; 
   totalAmount!: number;
   totalAmountWithDiscount!: number; // Store the total amount after applying the discount
-  discountType: string = '';  // Store the discount type (AMOUNT or PERCENTAGE)
-  discountAmount: number = 0;  // Store the discount amount
+  discountType: string = '';  
+  discountAmount: number = 0;  
+
+  couponForm!: FormGroup;
 
   constructor(
     private userAuthService: UserAuthService,
@@ -46,10 +51,18 @@ export class CartComponent implements OnInit {
     private productService: ProductService,
     private messageService: MessageService,
     private fb: FormBuilder,
-    private couponService: CouponService  // Inject the coupon service
+    private couponService: CouponService,
+    private confirmationService: ConfirmationService,
   ) { }
 
+  initialiseForm(){
+    this.couponForm = this.fb.group({
+      code:['']
+    })
+  }
+
   ngOnInit(): void {
+    this.initialiseForm();
     if (!this.userAuthService.isLoggedIn()) {
       setTimeout(() => {
         this.messageService.add({
@@ -59,45 +72,49 @@ export class CartComponent implements OnInit {
         });
       }, 0);
     } else {
-      const userId = this.userAuthService.getUserId();
-      this.cartService.getCartItems(userId).subscribe((cartItems: Cart[]) => {
-        this.cart = cartItems;
-
-        this.productService.getAllProducts().subscribe(
-          (products: Product[]) => {
-            this.product = products.filter(product =>
-              cartItems.some(item => item.productId === product.productId)
-            );
-
-            // Initialize cartForm after the data is available
-            this.cartForm = this.fb.group({});
-            cartItems.forEach(item => {
-              this.cartForm.addControl(item.productId.toString(), this.fb.control(item.quantity, Validators.min(1)));
-            });
-
-            this.calculateTotalAmount();
-
-            this.cartForm.valueChanges.subscribe(values => {
-              this.errorMessage = ''; // Clear any error when the value changes
-              this.calculateTotalAmount(); // Recalculate the total whenever a value changes
-            });
-          },
-          (error) => {
-            this.messageService.add({
-              severity: 'error',
-              summary: 'Error fetching products',
-              detail: 'Could not fetch product details',
-            });
-          }
-        );
-      }, (error) => {
-        this.messageService.add({
-          severity: 'error',
-          summary: 'Error fetching cart items',
-          detail: 'Could not fetch cart items',
-        });
-      });
+      this. getCartDetails();
     }
+
+   
+  }
+  getCartDetails() {
+    const userId = this.userAuthService.getUserId();
+    this.cartService.getCartItems(userId).subscribe((cartItems: Cart[]) => {
+      this.cart = cartItems;
+
+      this.productService.getAllProducts().subscribe(
+        (products: Product[]) => {
+          this.product = products.filter(product => cartItems.some(item => item.productId === product.productId)
+          );
+
+          // Initialize cartForm after the data is available
+          this.cartForm = this.fb.group({});
+          cartItems.forEach(item => {
+            this.cartForm.addControl(item.productId.toString(), this.fb.control(item.quantity, Validators.min(1)));
+          });
+
+          this.calculateTotalAmount();
+
+          this.cartForm.valueChanges.subscribe(values => {
+            this.errorMessage = ''; // Clear any error when the value changes
+            this.calculateTotalAmount(); // Recalculate the total whenever a value changes
+          });
+        },
+        (error) => {
+          this.messageService.add({
+            severity: 'error',
+            summary: 'Error fetching products',
+            detail: 'Could not fetch product details',
+          });
+        }
+      );
+    }, (error) => {
+      this.messageService.add({
+        severity: 'error',
+        summary: 'Error fetching cart items',
+        detail: 'Could not fetch cart items',
+      });
+    });
   }
 
   getProductName(productId: number): string {
@@ -125,10 +142,15 @@ export class CartComponent implements OnInit {
         this.totalAmount += product.price * quantity;
       }
     });
-
-    // After calculating the total, apply discount if available
+  
+    // Apply discount if available
     this.totalAmountWithDiscount = this.totalAmount - this.discountAmount;
+  
+    // Round the total amounts to two decimal places
+    this.totalAmount = parseFloat(this.totalAmount.toFixed(2));
+    this.totalAmountWithDiscount = parseFloat(this.totalAmountWithDiscount.toFixed(2));
   }
+  
 
   onQuantityChange(productId: number, event: any) {
     const quantity = event.target.value;
@@ -141,27 +163,75 @@ export class CartComponent implements OnInit {
   }
 
   applyCoupon(): void {
-    if (!this.couponCode) {
+
+    console.log(this.couponForm.get('code')?.value);
+    
+    if (!this.couponForm.value) {
       this.errorMessage = "Please enter a coupon code.";
       return;
     }
 
-    // Call the CouponService to validate and get the discount
-    this.couponService.validateCoupon(this.couponCode).subscribe(
+    
+    this.couponService.validateCoupon(this.couponForm.get('code')?.value).subscribe(
       coupon => {
-        this.errorMessage = ''; // Clear any error
-        // Check coupon type and apply the discount
+        this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Coupon Added Successful' });
+        this.errorMessage = ''; 
+        
         if (coupon.discountType === 'PERCENTAGE') {
           this.discountAmount = (this.totalAmount * coupon.discountAmount) / 100;
         } else if (coupon.discountType === 'AMOUNT') {
           this.discountAmount = coupon.discountAmount;
         }
         this.discountType = coupon.discountType;
-        this.calculateTotalAmount(); // Recalculate the total with the discount
+        this.calculateTotalAmount(); 
       },
       error => {
-        this.errorMessage = "Invalid coupon code.";
+        this.errorMessage = error.error.title;
       }
     );
   }
+
+  removeItem(event: Event,cart:Cart){
+    this.confirmationService.confirm({
+      target: event.target as EventTarget,
+      message: 'Are you sure that you want to remove this product?',
+      header: 'Confirmation',
+      closable: true,
+      closeOnEscape: true,
+      icon: 'pi pi-exclamation-triangle',
+      rejectButtonProps: {
+          label: 'Cancel',
+          severity: 'secondary',
+          outlined: true,
+      },
+      acceptButtonProps: {
+          label: 'Remove',
+          severity: 'danger',
+      },
+      accept: () => {
+          console.log(cart);
+          this.cartService.deleteCartItem(cart.cartId).subscribe((response)=>{
+            this.getCartDetails();
+          })
+          
+      },
+      reject: () => {
+      },
+  });
+  }
+
+  proceedToCheckOut() {
+    this.cart.forEach(item => {
+      const updatedQuantity = this.cartForm.get(item.productId.toString())?.value || 1;
+      const product = this.product.find(p => p.productId === item.productId);
+      
+      if (product) {
+        console.log(`Product Name: ${product.productName}`);
+        console.log(`Updated Quantity: ${updatedQuantity}`);
+        console.log(`Price: Rs: ${product.price}`);
+        console.log(`Subtotal: Rs: ${product.price * updatedQuantity}`);
+      }
+    });
+  }
+  
 }
