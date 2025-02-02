@@ -213,6 +213,7 @@ export class CartComponent implements OnInit {
       accept: () => {
           console.log(cart);
           this.cartService.deleteCartItem(cart.cartId).subscribe((response)=>{
+            this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Item removed from cart' });
             this.getCartDetails();
           })
           
