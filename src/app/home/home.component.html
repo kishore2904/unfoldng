@@ -42,21 +42,28 @@
     <h2>Featured Products</h2>
     <p>Get Our new Collection Designs</p>
     <div class="pro-container">
-        <div *ngFor="let product of product" class="pro">
-            <img [src]="product.imageUrl || 'assets/products/f1.jpg'" alt="" (click)="navigateToShop(product)">
-            <div class="desc">
-                <span>{{ getCategoryName(product.categoryId) }}</span>
-                <h5>{{ product.productName }}</h5>
-                <div class="star">
-                    <i class="pi pi-star-fill" *ngFor="let star of getStars(4)"></i>
-                </div>
-                <h4>Rs: {{ product.price }}</h4>
-            </div>
-            <i class="pi pi-heart cart1" style="font-size: 1.3rem; color: #000000" (click)="addToWishlist(product)"></i>
-            <i class="pi pi-cart-plus cart" (click)="addToCart(product)"></i>
+      <div *ngFor="let product of product" class="pro">
+        <img [src]="product.imageUrl || 'assets/products/f1.jpg'" alt="" (click)="navigateToShop(product)">
+        <div class="desc">
+          <span>{{ getCategoryName(product.categoryId) }}</span>
+          <h5>{{ product.productName }}</h5>
+          <div class="star">
+            <i class="pi pi-star-fill" *ngFor="let star of getStars(4)"></i>
+          </div>
+          <h4>Rs: {{ product.price }}</h4>
         </div>
+        <i 
+          class="pi pi-heart-fill cart1 " 
+          [ngClass]="{ 'wishlist-added': isProductInWishlist(product) }" 
+          style="font-size: 1.3rem;" 
+          (click)="addToWishlist(product)">
+        </i>
+        <i class="pi pi-cart-plus cart" (click)="addToCart(product)"></i>
+      </div>
     </div>
-</section>
+  </section>
+  
+
 <!-- product section end -->
 
 <!-- Banner section start -->

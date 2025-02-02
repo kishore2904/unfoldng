@@ -12,6 +12,7 @@ import { FormGroup, FormBuilder, Validators, ReactiveFormsModule } from '@angula
 import { CouponService } from '../_service/coupon.service';  
 import { HeaderComponent } from '../header/header.component';
 import { ConfirmDialogModule } from 'primeng/confirmdialog';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-cart',
@@ -53,6 +54,7 @@ export class CartComponent implements OnInit {
     private fb: FormBuilder,
     private couponService: CouponService,
     private confirmationService: ConfirmationService,
+    private readonly router: Router,
   ) { }
 
   initialiseForm(){
@@ -226,10 +228,8 @@ export class CartComponent implements OnInit {
       const product = this.product.find(p => p.productId === item.productId);
       
       if (product) {
-        console.log(`Product Name: ${product.productName}`);
-        console.log(`Updated Quantity: ${updatedQuantity}`);
-        console.log(`Price: Rs: ${product.price}`);
-        console.log(`Subtotal: Rs: ${product.price * updatedQuantity}`);
+        
+        this.router.navigate(['/checkout']);
       }
     });
   }

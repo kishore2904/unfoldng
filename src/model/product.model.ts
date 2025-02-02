@@ -1,3 +1,5 @@
+import { ProductVariant } from "./productVariant.model";
+
 export interface Product {
   productId: number;
   productName: string;
@@ -6,4 +8,5 @@ export interface Product {
   stockQuantity: number;
   categoryId: number;
   imageUrl: string | null;
+  productVariantDtos: ProductVariant[];
 }
