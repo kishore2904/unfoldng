@@ -229,6 +229,9 @@ export class CartComponent implements OnInit {
       const product = this.product.find(p => p.productId === item.productId);
       
       if (product) {
+        console.log(updatedQuantity);
+        
+        console.log(product);
         
         this.router.navigate(['/checkout']);
       }

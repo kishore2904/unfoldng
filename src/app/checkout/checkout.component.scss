@@ -1845,64 +1845,7 @@ h5.panel-title span {
     color: #519f10;
 }
 
-/*---------------------------
-    9. My account
------------------------------*/
-.account-info-wrapper > h4 {
-  font-size: 15px;
-  font-weight: 600;
-  margin: 0;
-  text-transform: uppercase;
-}
-.account-info-wrapper > h5 {
-    font-size: 16px;
-    letter-spacing: 0.2px;
-    margin-top: 7px;
-}
-.account-info-wrapper {
-    border-bottom: 1px solid #eaeaea;
-    margin-bottom: 28px;
-    padding-bottom: 30px;
-}
-.entries-wrapper {
-    border: 1px solid #eaeaea;
-    position: relative;
-}
-.entries-wrapper:before {
-    position: absolute;
-    content: "";
-    height: 100%;
-    width: 1px;
-    left: 50%;
-    top: 0;
-    background-color: #eaeaea;
-}
-.entries-info {
-    padding: 30px 20px;
-}
-.entries-info > p {
-    color: #242424;
-    font-size: 15px;
-    margin: 0;
-    text-transform: capitalize;
-}
-.entries-edit-delete > a {
-    background-color: #242424;
-    border-radius: 5px;
-    color: #fff;
-    display: inline-block;
-    line-height: 1;
-    margin: 0 2px;
-    padding: 12px 15px;
-    text-transform: uppercase;
-}
-.entries-edit-delete > a.edit {
-    background-color: #df5c39;
-}
-.entries-edit-delete > a:hover,
-.entries-edit-delete > a.edit:hover {
-    background-color: #519f10;
-}
+
 
 
 
