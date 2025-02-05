@@ -1,5 +1,8 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Orders } from '../../model/orders.model';
+import { Observable } from 'rxjs';
+import { API_PATH, REST_API } from '../utils/constants';
 
 @Injectable({
   providedIn: 'root'
@@ -13,5 +16,10 @@ export class OrderService {
     return new HttpHeaders({
       'Authorization': `Bearer ${token}`
     });
+  }
+
+  public createOrder(order: Orders): Observable<Orders>{
+    const headers = this.createAuthorizationHeader();
+    return this.httpClient.post<Orders>(`${API_PATH}${REST_API}/orders`,order,{headers});
   }
 }

@@ -1,10 +1,7 @@
-import { Product } from "./product.model";
-import { ProductVariant } from "./productVariant.model";
-
 export class OrderItems {
-    orderItemId!: number;
-    product!: Product;
-    productVariant!: ProductVariant;
-    quantity!: number;
-    priceAtTimeOfOrder!: number;
-  }
+  orderItemId!: number;
+  productId!: number; // Store productId instead of full Product object (to match Java)
+  variantId!: number; // Store variantId instead of full ProductVariant object
+  quantity!: number;
+  priceAtTimeOfOrder!: number;
+}
