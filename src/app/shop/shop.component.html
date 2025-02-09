@@ -11,7 +11,7 @@
 <section id="product" class="section-p1">
     <div class="pro-container">
         <div *ngFor="let product of product" class="pro">
-            <img [src]="'assets/products/f1.jpg'" alt="" (click)="navigateToShop(product)">
+            <img [src]="product.imageUrl || 'assets/products/f1.jpg'" alt="" (click)="navigateToShop(product)">
             <div class="desc">
                 <span>{{ getCategoryName(product.categoryId) }}</span>
                 <h5>{{ product.productName }}</h5>

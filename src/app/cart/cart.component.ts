@@ -229,6 +229,11 @@ export class CartComponent implements OnInit {
     });
   }
 
+  getProductImageUrl(productId: number): string {
+    const product = this.product.find(p => p.productId === productId);
+    return product?.imageUrl ?? 'assets/default-placeholder.png'; 
+  }
+
   proceedToCheckOut() {
     if (!this.cart || this.cart.length === 0) {
       this.messageService.add({
@@ -245,7 +250,7 @@ export class CartComponent implements OnInit {
       const updatedQuantity = this.cartForm.get(item.productId.toString())?.value || 1;
       return {
         productId: item.productId,
-        variantId: item.variantId, // Assuming variantId exists in cart items
+        variantId: item.variantId,
         quantity: updatedQuantity,
         priceAtTimeOfOrder: this.product.find(p => p.productId === item.productId)?.price || 0,
       };
@@ -259,23 +264,30 @@ export class CartComponent implements OnInit {
       paymentStatus: 'PENDING',
       shippingAddress: '123 Main Street, City, Country',
       createdAt: currentDate.toISOString(),
-      orderItems: [], 
+      orderItems: orderItems,
     };
   
-    this.orderService.createOrder(order).subscribe(
-      (response) => {
-        console.log('Order created successfully:', response);
-        this.router.navigate(['/checkout']);
-      },
-      (error) => {
-        console.error('Error creating order:', error);
-        this.messageService.add({
-          severity: 'error',
-          summary: 'Order Failed',
-          detail: 'Failed to create order. Please try again!',
-        });
-      }
-    );
+    localStorage.setItem('pendingOrder', JSON.stringify(order));
+    console.log( localStorage.getItem('pendingOrder'));
+    this.router.navigate(['/checkout']);
+  
+    // this.orderService.createOrder(order).subscribe(
+    //   (response) => {
+    //     console.log('Order created successfully:', response);
+        
+    //     localStorage.setItem('pendingOrder', JSON.stringify(response));
+  
+    //     this.router.navigate(['/checkout']);
+    //   },
+    //   (error) => {
+    //     console.error('Error creating order:', error);
+    //     this.messageService.add({
+    //       severity: 'error',
+    //       summary: 'Order Failed',
+    //       detail: 'Failed to create order. Please try again!',
+    //     });
+    //   }
+    // );
   }
   
 

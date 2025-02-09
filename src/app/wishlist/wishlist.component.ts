@@ -159,6 +159,11 @@ export class WishlistComponent implements OnInit {
       this.errorMessage = ''; // clear the error message if the quantity is valid
     }
   }
+  getProductImageUrl(productId: number): string {
+    const product = this.product.find(p => p.productId === productId);
+    return product?.imageUrl ?? 'assets/default-placeholder.png'; 
+  }
+  
   removeItem(event: Event, wishlist: Wishlist) {
     this.confirmationService.confirm({
       target: event.target as EventTarget,

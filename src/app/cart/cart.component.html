@@ -17,7 +17,7 @@
             </thead>
             <tbody>
                 <tr *ngFor="let item of cart">
-                    <td><img src="assets/products/f1.jpg" alt=""></td>
+                    <td><img [src]="getProductImageUrl(item.productId)"  alt=""></td>
                     <td>{{ getProductName(item.productId) }}</td>
                     <td>{{ getProductPrice(item.productId) }}</td>
                     <td>

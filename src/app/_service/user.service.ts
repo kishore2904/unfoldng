@@ -2,44 +2,49 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { catchError, map } from 'rxjs';
 import { UserAuthService } from './user-auth.service';
-import { API_PATH } from '../../app/utils/constants';
+import { API_PATH, REST_API } from '../../app/utils/constants';
+import { User } from '../../model/user.model';
 
 @Injectable({
   providedIn: 'root'
 })
 export class UserService {
-  
-  headers = new HttpHeaders({  })
+
+  private createAuthorizationHeader(): HttpHeaders {
+    const token = localStorage.getItem('jwtToken');
+    return new HttpHeaders({
+      'Authorization': `Bearer ${token}`
+    });
+  }
 
 
   constructor(
     private httpClient: HttpClient,
     private userAuthService: UserAuthService
-  ) {}
+  ) { }
 
-  // Handle login request
-  // Example login service
-public loginUser(loginData: any) {
-    return this.httpClient.post(API_PATH + "authenticate", loginData, { headers: this.headers }).pipe(map((response) => {
+  public loginUser(loginData: any) {
+    const headers = this.createAuthorizationHeader();
+    return this.httpClient.post(API_PATH + "authenticate", loginData).pipe(map((response) => {
       return response;
-  }));
-}
+    }));
+  }
 
-
-  // Handle user registration
   public userRegister(userData: any) {
-    return this.httpClient.post(API_PATH + "registerNewUser", userData, { headers: this.headers }).pipe(
+    return this.httpClient.post(API_PATH + "registerNewUser", userData).pipe(
       map((response) => {
         return response;
       }),
       catchError((error) => {
         console.error("Registration error: ", error);
-        throw error;  // Properly handle errors
+        throw error; 
       })
     );
   }
 
-  // Role match function for user access
+  public getUserDetails(userId:string){
+    return this.httpClient.get<User>(API_PATH+REST_API+'/userDetail?userId='+userId);
+  }
   public roleMatch(allowedRoles: any[]): boolean {
     let isMatch = false;
     const userRoles: any = this.userAuthService.getRoles();

@@ -1,3 +1,4 @@
+import { ProductImage } from "./productImage.model";
 import { ProductVariant } from "./productVariant.model";
 
 export interface Product {
@@ -9,4 +10,5 @@ export interface Product {
   categoryId: number;
   imageUrl: string | null;
   productVariantDtos: ProductVariant[];
+  images: ProductImage[];
 }

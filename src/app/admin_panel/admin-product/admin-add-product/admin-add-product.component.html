@@ -59,7 +59,7 @@
                     </div>
                     <div class="col-md-6 mt-3 mt-md-0">
                       <label>Upload Photo (150px X 150px)</label><br>
-                      <input type="file" formControlName="imageUrl">
+                      <input type="file" (change)="onFileSelected($event)">
                     </div>
                   </div>
   
