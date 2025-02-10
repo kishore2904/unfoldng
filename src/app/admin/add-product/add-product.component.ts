@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { AdminHeadersComponent } from '../admin-headers/admin-headers.component';
 import { InputTextModule } from 'primeng/inputtext';
-import { FormBuilder, FormGroup, FormsModule } from '@angular/forms';
+import { FormArray, FormBuilder, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { FloatLabel } from 'primeng/floatlabel';
 import { TextareaModule } from 'primeng/textarea';
 import { ButtonModule } from 'primeng/button';
@@ -21,10 +21,6 @@ import { CategoryService } from '../../_service/category.service';
 import { Category } from '../../../model/category.model';
 import { Product } from '../../../model/product.model';
 
-interface City {
-  name: string;
-  code: string;
-}
 interface UploadEvent {
   originalEvent: FileUploadEvent;
   files: File[];
@@ -46,8 +42,8 @@ interface UploadEvent {
     ToastModule,
     NgFor,
     NgIf,
-    TableModule
-
+    TableModule,
+    ReactiveFormsModule
   ],
   standalone: true,
   templateUrl: './add-product.component.html',
@@ -63,6 +59,7 @@ export class AddProductComponent implements OnInit {
   product: Product[] = [];
 
   addProductForm!: FormGroup;
+  addProductVariant!: FormGroup;
 
 
   products = [
@@ -75,8 +72,8 @@ export class AddProductComponent implements OnInit {
     private productColorService: ProductColorService,
     private productSizeService: ProductSizeService,
     private categoryService: CategoryService,
-    private formBuilder: FormBuilder,
-  ) { }
+    private formBuilder: FormBuilder
+  ) {}
 
   ngOnInit(): void {
     this.initializeForm();
@@ -87,45 +84,39 @@ export class AddProductComponent implements OnInit {
 
   public initializeForm() {
     this.addProductForm = this.formBuilder.group({
-      productId: [null],
       productName: [''],
       productDescription: [''],
-      price: [null],
-      stockQuantity: [null],
-      categoryId: [null],
-      imageUrl: [''],
-      productVariantDtos: this.formBuilder.array([])
+      productVariantDtos: this.formBuilder.array([]) // Initialize the FormArray to hold product variants
     });
   }
 
   getAllColors() {
     this.productColorService.getAllColor().subscribe((response) => {
       this.productColors = response;
-    })
+    });
   }
 
   getAllSize() {
     this.productSizeService.getAllSize().subscribe((response) => {
       this.productSize = response;
-    })
+    });
   }
 
   getAllCategories() {
     this.categoryService.getCategory().subscribe((response: Category[]) => {
       this.categories = response;
-    })
+    });
   }
 
   showDialog() {
     this.visible = true;
   }
 
+  // Upload files
   onUpload(event: FileUploadEvent) {
     for (let file of event.files) {
       this.uploadedFiles.push(file);
     }
-
     this.messageService.add({ severity: 'info', summary: 'File Uploaded', detail: '' });
   }
-
 }

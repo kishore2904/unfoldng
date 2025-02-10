@@ -4,23 +4,28 @@
     <div class="container">
         <h3>Add Product</h3>
     </div>
+    <form [formGroup]="addProductForm" >
     <div class="header">
+        
         <div class="inputDetail">
             <p-floatlabel variant="on">
-                <input pInputText id="on_label" autocomplete="off" />
+                <input pInputText id="on_label" formControlName="productName" autocomplete="off" />
                 <label for="on_label">Product Name</label>
             </p-floatlabel>
         </div>
         <div class="inputDetail">
             <p-floatlabel variant="on">
-                <textarea rows="5" cols="30" pTextarea [autoResize]="true"></textarea>
+                <textarea rows="5" cols="30" formControlName="productDescription" pTextarea [autoResize]="true"></textarea>
                 <label for="on_label">Product Description</label>
             </p-floatlabel>
         </div>
+   
     </div>
-    <div class="btn">
-        <p-button label="Add Variant" icon="pi pi-plus" iconPos="right" (click)="showDialog()" />
-    </div>
+    
+</form>
+<div class="btn">
+    <p-button label="Add Variant" icon="pi pi-plus" iconPos="right" (click)="showDialog()" />
+</div>
 </div>
 <div class="card flex justify-center">
 
@@ -30,17 +35,17 @@
             <label for="username" class="font-semibold w-24">Category</label>
             <p-select [options]="categories" optionLabel="categoryName" placeholder="Select a Category"
                 class="w-full md:w-56" />
-        </div>
+          </div>
         <div class="flex items-left gap-4 mb-4">
             <label for="username" class="font-semibold w-24">Color</label>
             <p-select [options]="productColors" optionLabel="colorName" placeholder="Select a Color"
                 class="w-full md:w-56" />
-        </div>
+          </div>
         <div class="flex items-center gap-4 mb-4">
             <label for="productColor" class="font-semibold w-24">Size</label>
             <p-select [options]="productSize" optionLabel="sizeName" placeholder="Select a Size"
                 class="w-full md:w-56" />
-        </div>
+          </div>
         <div class="flex items-center gap-4 mb-8">
             <label for="email" class="font-semibold w-24">Image</label>
             <p-fileupload (onUpload)="onUpload($event)" [multiple]="true" accept="image/*" maxFileSize="1000000"
@@ -54,20 +59,20 @@
                     </ul>
                 </ng-template>
             </p-fileupload>
-        </div>
+          </div>
         <div class="flex items-center gap-4 mb-8">
             <label for="email" class="font-semibold w-24">Stock</label>
             <input pInputText id="email" class="flex-auto" autocomplete="off" />
-        </div>
+          </div>
         <div class="flex items-center gap-4 mb-8">
             <label for="email" class="font-semibold w-24">Price</label>
             <input pInputText id="email" class="flex-auto" autocomplete="off" />
         </div>
         <div class="flex justify-end gap-2">
-            <p-button label="Cancel" severity="secondary" (click)="visible = false" />
-            <p-button label="Save" (click)="visible = false" />
+          <p-button label="Cancel" severity="secondary" (click)="visible = false" />
+          <p-button label="Save" (click)="visible = false" />
         </div>
-    </p-dialog>
+      </p-dialog>
 </div>
 <div class="card m-4">
     <div class="container">

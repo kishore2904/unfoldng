@@ -6,9 +6,8 @@ export interface Product {
   productName: string;
   productDescription: string;
   price: number;
-  stockQuantity: number;
+  stockQuantity: number | null;
   categoryId: number;
-  imageUrl: string | null;
+  imageUrl: string;
   productVariantDtos: ProductVariant[];
-  images: string;
 }
