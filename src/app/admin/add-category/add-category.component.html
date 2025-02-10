@@ -1,0 +1,42 @@
+
+<app-admin-headers></app-admin-headers>
+<div class="card m-5">
+    <div class="container">
+        <h3 >Add New Category</h3>
+    </div>
+    <form [formGroup]="addCategoryForm">
+    <div class="inputfield mt-3 p-3" >
+        
+        <p-floatlabel variant="on">
+            <input pInputText id="on_label" formControlName="categoryName" autocomplete="off" />
+            <label for="on_label">Category Name</label>
+        </p-floatlabel>
+    
+        <p-button label="Save" (click)="saveCategory()"  />
+    </div>
+</form>
+</div>
+<div class="card m-4">
+    <div class="container">
+        <h3 >Available Colors</h3>
+    </div>
+    <p-table [value]="categoryList" [tableStyle]="{ 'min-width': '50rem', 'padding':'50px' }">
+        <ng-template pTemplate="header">
+            <tr>
+                <th>S.No</th>
+                <th>Color Name</th>
+                <th>Edit</th>
+                <th>Delete</th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-categoryList let-rowIndex="rowIndex">
+            <tr>
+                <td>{{ rowIndex+1 }}</td>
+                <td>{{ categoryList.categoryName }}</td>
+                <td>edit</td>
+                <td>delete</td>
+            </tr>
+        </ng-template>
+    </p-table>
+    
+</div>

@@ -68,7 +68,7 @@ export class HomeComponent implements OnInit {
     this.productService.getAllProducts().subscribe((response) => {
       this.loadingService.hide();
       this.product = response.slice(0, 4);
-      this.featuredProduct = response;
+      this.featuredProduct = response.slice(0, 8);;
     });
 
     this.wishlistService.getWishlist(this.userAuthService.getUserId()).subscribe((response) => {

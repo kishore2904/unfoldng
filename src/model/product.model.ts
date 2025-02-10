@@ -10,5 +10,5 @@ export interface Product {
   categoryId: number;
   imageUrl: string | null;
   productVariantDtos: ProductVariant[];
-  images: ProductImage[];
+  images: string;
 }

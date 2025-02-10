@@ -6,16 +6,16 @@
         <img [src]="product.imageUrl || 'assets/products/f1.jpg'" width="100%" id="mainImage" alt="Main Image">
         <div class="small-image-group">
             <div class="small-image-col">
-                <img src="assets/products/f1.jpg" width="100%" class="small-image" alt="">
+                <img [src]="product.imageUrl || 'assets/products/f1.jpg'" width="100%" class="small-image" alt="">
             </div>
             <div class="small-image-col">
-                <img src="assets/products/f2.jpg" width="100%" class="small-image" alt="">
+                <img [src]="product.imageUrl || 'assets/products/f1.jpg'" width="100%" class="small-image" alt="">
             </div>
             <div class="small-image-col">
-                <img src="assets/products/f3.jpg" width="100%" class="small-image" alt="">
+                <img [src]="product.imageUrl || 'assets/products/f1.jpg'" width="100%" class="small-image" alt="">
             </div>
             <div class="small-image-col">
-                <img src="assets/products/f4.jpg" width="100%" class="small-image" alt="">
+                <img [src]="product.imageUrl || 'assets/products/f1.jpg'" width="100%" class="small-image" alt="">
             </div>
         </div>
     </div>
@@ -39,7 +39,7 @@
             <option value="">Yellow</option>
         </select>
         <input type="number" value="1">
-        <button class="normal" (click)="addToCart()">Add to cart</button>
+        <button class="normal" (click)="addToCart(product)">Add to cart</button>
         <button class="normal ml-2" (click)="buyNow(product)">Buy Now</button>
         <h4>Product Description</h4>
         <span>
@@ -54,72 +54,25 @@
     <h2>New Arrivals</h2>
     <p>Get Our new Collection Designs</p>
     <div class="pro-container">
-        <div class="pro">
-            <img src="assets/products/f1.jpg" alt="">
+        <div *ngFor="let product of productList" class="pro">
+            <img [src]="product.imageUrl || 'assets/products/f1.jpg'" alt="" >
             <div class="desc">
-                <span>Anime Tshhirt</span>
-                <h5>Zenitsu T-Shirt | Demon Slayer</h5>
+                <span>{{ getCategoryName(product.categoryId) }}</span>
+                <h5>{{ product.productName }}</h5>
                 <div class="star">
-                    <i class="pi pi-star-fill"></i>
-                    <i class="pi pi-star-fill"></i>
-                    <i class="pi pi-star-fill"></i>
-                    <i class="pi pi-star-fill"></i>
-                    <i class="pi pi-star-half-fill"></i>
+                    <i class="pi pi-star-fill" *ngFor="let star of getStars(4)"></i>
                 </div>
-                <h4>Rs: 499</h4>
+                <h4>Rs: {{ product.price }}</h4>
             </div>
-            <i class="pi pi-cart-plus cart"></i>
-        </div>
-        <div class="pro">
-            <img src="assets/products/f2.jpg" alt="">
-            <div class="desc">
-                <span>Anime Tshhirt</span>
-                <h5>Zenitsu T-Shirt | Demon Slayer</h5>
-                <div class="star">
-                    <i class="pi pi-star-fill"></i>
-                    <i class="pi pi-star-fill"></i>
-                    <i class="pi pi-star-fill"></i>
-                    <i class="pi pi-star-fill"></i>
-                    <i class="pi pi-star-half-fill"></i>
-                </div>
-                <h4>Rs: 499</h4>
-            </div>
-            <i class="pi pi-cart-plus cart"></i>
-        </div>
-        <div class="pro">
-            <img src="assets/products/f3.jpg" alt="">
-            <div class="desc">
-                <span>Anime Tshhirt</span>
-                <h5>Zenitsu T-Shirt | Demon Slayer</h5>
-                <div class="star">
-                    <i class="pi pi-star-fill"></i>
-                    <i class="pi pi-star-fill"></i>
-                    <i class="pi pi-star-fill"></i>
-                    <i class="pi pi-star-fill"></i>
-                    <i class="pi pi-star-half-fill"></i>
-                </div>
-                <h4>Rs: 499</h4>
-            </div>
-            <i class="pi pi-cart-plus cart"></i>
-        </div>
-        <div class="pro">
-            <img src="assets/products/f4.jpg" alt="">
-            <div class="desc">
-                <span>Anime Tshhirt</span>
-                <h5>Zenitsu T-Shirt | Demon Slayer</h5>
-                <div class="star">
-                    <i class="pi pi-star-fill"></i>
-                    <i class="pi pi-star-fill"></i>
-                    <i class="pi pi-star-fill"></i>
-                    <i class="pi pi-star-fill"></i>
-                    <i class="pi pi-star-half-fill"></i>
-                </div>
-                <h4>Rs: 499</h4>
-            </div>
-            <i class="pi pi-cart-plus cart"></i>
+            <i 
+          class="pi pi-heart-fill cart2 " 
+          [ngClass]="{ 'wishlist-added': isProductInWishlist(product) }" 
+          style="font-size: 1.3rem;" 
+          (click)="addToWishlist(product)">
+        </i>
+            <i class="pi pi-cart-plus cart" (click)="addToCart(product)"></i>
         </div>
     </div>
-
 </section>
 <!-- New Arrivals section end -->
 

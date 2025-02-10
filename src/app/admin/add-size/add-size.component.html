@@ -1,0 +1,43 @@
+
+<app-admin-headers></app-admin-headers>
+<div class="card m-5">
+    <div class="container">
+        <h3 >Add New Size</h3>
+    </div>
+    <form [formGroup]="sizeForm">
+    <div class="inputfield mt-3 p-3" >
+        
+        <p-floatlabel variant="on">
+            <input pInputText id="on_label" formControlName="sizeName" autocomplete="off" />
+            <label for="on_label">Size Name</label>
+        </p-floatlabel>
+       
+        <p-button label="Save" (click)="saveSize()"  />
+    
+    </div>
+</form>
+</div>
+<div class="card m-4">
+    <div class="container">
+        <h3 >Available Sizes</h3>
+    </div>
+    <p-table [value]="size" [tableStyle]="{ 'min-width': '50rem', 'padding':'50px' }">
+        <ng-template pTemplate="header">
+            <tr>
+                <th>S.No</th>
+                <th>Size</th>
+                <th></th>
+                <th></th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-size>
+            <tr>
+                <td>{{ size.sizeId }}</td>
+                <td>{{ size.sizeName }}</td>
+                <td>edit</td>
+                <td>delete</td>
+            </tr>
+        </ng-template>
+    </p-table>
+    
+</div>
