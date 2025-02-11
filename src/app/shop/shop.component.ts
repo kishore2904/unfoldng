@@ -12,6 +12,8 @@ import { Toast } from 'primeng/toast';
 import { MessageService } from 'primeng/api';
 import { LoadingComponent } from '../shared/loader/loader.component';
 import { HeaderComponent } from '../header/header.component';
+import { Cart } from '../../model/cart.model';
+import { CartService } from '../_service/cart.service';
 
 @Component({
   selector: 'app-shop',
@@ -39,6 +41,7 @@ export class ShopComponent implements OnInit {
     private userAuthService: UserAuthService,
     private loadingService: LoadingService,
     private messageService: MessageService,
+    private cartService: CartService,
   ) {
 
   }
@@ -50,6 +53,7 @@ export class ShopComponent implements OnInit {
       this.category = response;
     })
     this.productService.getAllProducts().subscribe((response) => {
+      this.loadingService.hide();
       this.product = response;
       console.log(response);
 
@@ -67,10 +71,25 @@ export class ShopComponent implements OnInit {
   }
   addToCart(product: Product) {
     if (this.userAuthService.isLoggedIn()) {
-      const userId: string = this.userAuthService.getUserId();
-    } else {
-      this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Please Login to add items to cart' });
-    }
+          const userId: string = this.userAuthService.getUserId();
+          const cart = new Cart();
+          cart.productId = product.productId;
+          cart.userId = userId;
+          cart.quantity = 1;
+          cart.createdAt = new Date().toISOString();
+          cart.variantId = 1001;
+          console.log(cart);
+    
+          this.cartService.addToCart(cart).subscribe((response) => {
+            this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Product Added to cart.' });
+          }, (error) => {
+            if (error.error.type == 'R001') {
+              this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Internal Server Error' });
+            }
+          });
+        } else {
+          this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Please Login to add items to cart' });
+        }
 
   }
   getStars(rating: number): number[] {

@@ -15,6 +15,7 @@ import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { Router } from '@angular/router';
 import { OrderService } from '../_service/order.service';
 import { Orders } from '../../model/orders.model';
+import { LoadingService } from '../_service/loading.service';
 
 @Component({
   selector: 'app-cart',
@@ -60,7 +61,8 @@ export class CartComponent implements OnInit {
     private confirmationService: ConfirmationService,
     private readonly router: Router,
     private orderService: OrderService,
-    private datePipe: DatePipe
+    private datePipe: DatePipe,
+    private loadingService: LoadingService,
   ) { }
 
   initialiseForm() {
@@ -70,6 +72,7 @@ export class CartComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.loadingService.show();
     this.initialiseForm();
     if (!this.userAuthService.isLoggedIn()) {
       setTimeout(() => {
@@ -89,7 +92,7 @@ export class CartComponent implements OnInit {
     const userId = this.userAuthService.getUserId();
     this.cartService.getCartItems(userId).subscribe((cartItems: Cart[]) => {
       this.cart = cartItems;
-
+      this.loadingService.hide();
       this.productService.getAllProducts().subscribe(
         (products: Product[]) => {
           this.product = products.filter(product => cartItems.some(item => item.productId === product.productId)
@@ -171,6 +174,7 @@ export class CartComponent implements OnInit {
   }
 
   applyCoupon(): void {
+    this.loadingService.show();
 
     console.log(this.couponForm.get('code')?.value);
 
@@ -182,6 +186,7 @@ export class CartComponent implements OnInit {
 
     this.couponService.validateCoupon(this.couponForm.get('code')?.value).subscribe(
       coupon => {
+        this.loadingService.hide();
         this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Coupon Added Successful' });
         this.errorMessage = '';
 
@@ -217,8 +222,10 @@ export class CartComponent implements OnInit {
         severity: 'danger',
       },
       accept: () => {
+        this.loadingService.show();
         console.log(cart);
         this.cartService.deleteCartItem(cart.cartId).subscribe((response) => {
+          this.loadingService.hide();
           this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Item removed from cart' });
           this.getCartDetails();
         })
