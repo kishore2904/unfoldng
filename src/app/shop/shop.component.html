@@ -20,7 +20,9 @@
                 </div>
                 <h4>Rs: {{ product.price }}</h4>
             </div>
-            <i class="pi pi-heart cart1" style="font-size: 1.3rem; color: #000000" (click)="addToWishlist(product)"></i>
+            <i class="pi pi-heart-fill cart1 " [ngClass]="{ 'wishlist-added': isProductInWishlist(product) }"
+                style="font-size: 1.3rem;" (click)="addToWishlist(product)">
+            </i>
             <i class="pi pi-cart-plus cart" (click)="addToCart(product)"></i>
         </div>
     </div>

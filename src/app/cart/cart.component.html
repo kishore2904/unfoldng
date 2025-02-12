@@ -43,6 +43,13 @@
             </div>
             <p *ngIf="errorMessage" style="color: red;">{{ errorMessage }}</p>
         </form>
+        <div class="appliedCart mt-4" *ngIf="appliedCoupons.length > 0">
+            <h4>Applied Coupons:</h4>
+            <ul >
+              <li *ngFor="let coupon of appliedCoupons">{{ coupon }}</li>
+            </ul>
+        </div>
+        
     </div>
     <div id="sub-total">
         <h3>Cart Total</h3>

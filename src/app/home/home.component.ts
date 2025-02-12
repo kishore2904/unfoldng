@@ -19,6 +19,8 @@ import { HeaderComponent } from '../header/header.component';
 import { WishlistService } from '../_service/wishlist.service';
 import { Wishlist } from '../../model/wishlist.model';
 import { WishlistStatus } from '../../model/wishlistStatus.model';
+import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { NewsletterService } from '../_service/newsletter.service';
 
 @Component({
   selector: 'app-home',
@@ -32,7 +34,8 @@ import { WishlistStatus } from '../../model/wishlistStatus.model';
     NgFor,
     Toast,
     HeaderComponent,
-    NgClass
+    NgClass,
+    ReactiveFormsModule
   ],
   providers: [MessageService],
   templateUrl: './home.component.html',
@@ -46,6 +49,8 @@ export class HomeComponent implements OnInit {
   wishlist: Set<number> = new Set(); 
   wishlistProduct:Wishlist[]=[];
 
+  subscriberForm!: FormGroup;
+
   constructor(
     private router: Router,
     private productService: ProductService,
@@ -55,9 +60,12 @@ export class HomeComponent implements OnInit {
     private messageService: MessageService,
     private cartService: CartService,
     private wishlistService: WishlistService,
+    private formBuilder: FormBuilder, 
+    private newsletterService: NewsletterService,
   ) { }
 
   ngOnInit(): void {
+    this.initializeForm();
     this.loadingService.show();
 
     this.categoryService.getCategory().subscribe((response) => {
@@ -77,6 +85,11 @@ export class HomeComponent implements OnInit {
     });
   }
 
+  initializeForm(){
+    this.subscriberForm = this.formBuilder.group({
+      subscribe: ['',[Validators.required, Validators.email]]
+    })
+  }
   getCategoryName(categoryId: number): string | undefined {
     const category = this.category.find((cat) => cat.categoryId === categoryId);
     return category?.categoryName;
@@ -128,7 +141,7 @@ export class HomeComponent implements OnInit {
         const wishlistId = existingWishlistItem.wishlistId; 
   
         this.wishlistService.removeFromWishlist(wishlistId).subscribe(() => {
-          this.messageService.add({ severity: 'success', summary: 'Removed from Wishlist', detail: 'Product removed from wishlist' });
+          this.messageService.add({ severity: 'success', summary: 'Error', detail: 'Product removed from wishlist' });
   
 
           this.wishlistProduct = this.wishlistProduct.filter(item => item.wishlistId !== wishlistId);
@@ -159,5 +172,18 @@ export class HomeComponent implements OnInit {
 
   isProductInWishlist(product: Product): boolean {
     return this.wishlistProduct.some(wishlist => wishlist.productId === product.productId && wishlist.status === WishlistStatus.ACTIVE);
+  }
+  subscribe(){
+    const email = this.subscriberForm.get('subscribe')?.value;
+    this.loadingService.show();
+    this.newsletterService.subscribe(email).subscribe((response)=>{
+      this.loadingService.hide();
+      this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Account Subscribed' });
+      this.subscriberForm.reset();
+    },(error)=>{
+      this.loadingService.hide();
+      this.messageService.add({ severity: 'error', summary: 'Error', detail: error.error.title });
+    })
+    
   }
 }

@@ -48,6 +48,7 @@ export class CartComponent implements OnInit {
   totalAmountWithDiscount!: number; // Store the total amount after applying the discount
   discountType: string = '';
   discountAmount: number = 0;
+  appliedCoupons: string[] = [];
 
   couponForm!: FormGroup;
 
@@ -140,8 +141,8 @@ export class CartComponent implements OnInit {
 
   getSubTotal(productId: number, quantity: number): string {
     const product = this.product.find(p => p.productId === productId);
-    return product ? `Rs: ${product.price * quantity}` : '0';
-  }
+    return product ? `Rs: ${(product.price * quantity).toFixed(2)}` : '0';
+  } 
 
   // Method to calculate the total of all subtotals
   calculateTotalAmount(): void {
@@ -167,7 +168,7 @@ export class CartComponent implements OnInit {
     const quantity = event.target.value;
     if (quantity <= 0) {
       this.errorMessage = 'Quantity cannot be zero or negative.';
-      this.cartForm.get(productId.toString())?.setValue(1); // reset to 1 if the quantity is invalid
+      this.cartForm.get(productId.toString()); // reset to 1 if the quantity is invalid
     } else {
       this.errorMessage = ''; // clear the error message if the quantity is valid
     }
@@ -175,34 +176,45 @@ export class CartComponent implements OnInit {
 
   applyCoupon(): void {
     this.loadingService.show();
-
-    console.log(this.couponForm.get('code')?.value);
-
-    if (!this.couponForm.value) {
+    const couponCode = this.couponForm.get('code')?.value?.trim();
+  
+    if (!couponCode) {
       this.errorMessage = "Please enter a coupon code.";
+      this.loadingService.hide();
       return;
     }
-
-
-    this.couponService.validateCoupon(this.couponForm.get('code')?.value).subscribe(
+  
+    if (this.appliedCoupons.includes(couponCode)) {
+      this.errorMessage = "This coupon has already been applied.";
+      this.loadingService.hide();
+      return;
+    }
+  
+    this.couponService.validateCoupon(couponCode).subscribe(
       coupon => {
         this.loadingService.hide();
-        this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Coupon Added Successful' });
+        this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Coupon Applied Successfully' });
+  
+        this.appliedCoupons.push(couponCode); // Store applied coupon
         this.errorMessage = '';
-
+  
         if (coupon.discountType === 'PERCENTAGE') {
-          this.discountAmount = (this.totalAmount * coupon.discountAmount) / 100;
+          this.discountAmount += (this.totalAmount * coupon.discountAmount) / 100;
         } else if (coupon.discountType === 'AMOUNT') {
-          this.discountAmount = coupon.discountAmount;
+          this.discountAmount += coupon.discountAmount;
         }
+  
         this.discountType = coupon.discountType;
         this.calculateTotalAmount();
+        this.couponForm.reset();
       },
       error => {
-        this.errorMessage = error.error.title;
+        this.loadingService.hide();
+        this.errorMessage = error.error.title || "Invalid coupon code.";
       }
     );
   }
+  
 
   removeItem(event: Event, cart: Cart) {
     this.confirmationService.confirm({
@@ -254,7 +266,7 @@ export class CartComponent implements OnInit {
     const currentDate = new Date();
     
     const orderItems = this.cart.map(item => {
-      const updatedQuantity = this.cartForm.get(item.productId.toString())?.value || 1;
+      const updatedQuantity = this.cartForm.get(item.productId.toString())?.value || 0;
       return {
         productId: item.productId,
         variantId: item.variantId,

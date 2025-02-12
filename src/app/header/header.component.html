@@ -29,16 +29,16 @@
         <a [routerLink]="['/admin']" [class.active]="isActive('/admin')" (click)="toggleMenu()">Admin Dashboard</a>
       </li>
       <li *ngIf="!isLoggedIn()">
-        <button type="button" class="btn btn-success" (click)="toggleMenu()" [routerLink]="['/login']">Login</button>
+        <a type="button"  (click)="toggleMenu()" [routerLink]="['/login']">Login</a>
       </li>
       <li *ngIf="isLoggedIn()">
-        <button type="button" class="btn btn-danger" (click)="toggleMenu()" (click)="logout()">Logout</button>
+        <a type="button"  (click)="toggleMenu()" (click)="logout()">Logout</a>
       </li>
     </ul>
 
   </div>
   <div id="mobile">
-    <a href="#"><i class="pi pi-shopping-bag" style="font-size: 2rem"></i></a>
+    <a href="/cart"><i class="pi pi-shopping-bag" style="font-size: 2rem"></i></a>
     <i id="bar" class="pi pi-bars" *ngIf="!isMenuOpen" (click)="toggleMenu()"></i>
     <i class="pi pi-times" *ngIf="isMenuOpen" (click)="toggleMenu()"></i>
   </div>

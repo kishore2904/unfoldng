@@ -5,7 +5,7 @@ import { CategoryService } from '../_service/category.service';
 import { ProductService } from '../_service/product.service';
 import { UserAuthService } from '../_service/user-auth.service';
 import { Product } from '../../model/product.model';
-import { NgFor } from '@angular/common';
+import { NgClass, NgFor } from '@angular/common';
 import { Category } from '../../model/category.model';
 import { LoadingService } from '../_service/loading.service';
 import { Toast } from 'primeng/toast';
@@ -14,6 +14,9 @@ import { LoadingComponent } from '../shared/loader/loader.component';
 import { HeaderComponent } from '../header/header.component';
 import { Cart } from '../../model/cart.model';
 import { CartService } from '../_service/cart.service';
+import { Wishlist } from '../../model/wishlist.model';
+import { WishlistStatus } from '../../model/wishlistStatus.model';
+import { WishlistService } from '../_service/wishlist.service';
 
 @Component({
   selector: 'app-shop',
@@ -24,7 +27,8 @@ import { CartService } from '../_service/cart.service';
     NgFor,
     LoadingComponent,
     Toast,
-    HeaderComponent
+    HeaderComponent,
+    NgClass
   ],
   providers: [MessageService,
   ],
@@ -34,6 +38,8 @@ import { CartService } from '../_service/cart.service';
 export class ShopComponent implements OnInit {
   product: Product[] = [];
   category: Category[] = [];
+    wishlist: Set<number> = new Set(); 
+    wishlistProduct:Wishlist[]=[];
   constructor(
     private router: Router,
     private productService: ProductService,
@@ -42,6 +48,7 @@ export class ShopComponent implements OnInit {
     private loadingService: LoadingService,
     private messageService: MessageService,
     private cartService: CartService,
+    private wishlistService: WishlistService,
   ) {
 
   }
@@ -104,11 +111,41 @@ export class ShopComponent implements OnInit {
   }
   addToWishlist(product: Product) {
     if (this.userAuthService.isLoggedIn()) {
-      console.log(product);
+      const existingWishlistItem = this.wishlistProduct.find(item => item.productId === product.productId);
+  
+      if (existingWishlistItem) {
+        const wishlistId = existingWishlistItem.wishlistId; 
+  
+        this.wishlistService.removeFromWishlist(wishlistId).subscribe(() => {
+          this.messageService.add({ severity: 'success', summary: 'Error', detail: 'Product removed from wishlist' });
+  
 
+          this.wishlistProduct = this.wishlistProduct.filter(item => item.wishlistId !== wishlistId);
+        }, (error) => {
+          this.messageService.add({ severity: 'error', summary: 'Error', detail: error.error.title });
+        });
+      } else {
+        this.wishlistService.addToWishlist(this.userAuthService.getUserId(), product.productId).subscribe(() => {
+          this.messageService.add({ severity: 'success', summary: 'Added to Wishlist', detail: 'Product added to wishlist' });
+  
+
+          const newWishlistItem: Wishlist = {
+            wishlistId: 0,
+            productId: product.productId,
+            userId: this.userAuthService.getUserId(),
+            status: WishlistStatus.ACTIVE,
+            dateAdded: new Date().toISOString(),
+          };
+          this.wishlistProduct.push(newWishlistItem);
+        }, (error) => {
+          this.messageService.add({ severity: 'error', summary: 'Error', detail: error.error.title });
+        });
+      }
     } else {
       this.messageService.add({ severity: 'error', summary: 'Error', detail: 'Please Login to add items to wishlist' });
     }
   }
-
+isProductInWishlist(product: Product): boolean {
+    return this.wishlistProduct.some(wishlist => wishlist.productId === product.productId && wishlist.status === WishlistStatus.ACTIVE);
+  }
 }
