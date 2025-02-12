@@ -176,6 +176,12 @@ export class CartComponent implements OnInit {
 
   applyCoupon(): void {
     this.loadingService.show();
+    if (!this.cart || this.cart.length === 0) {
+      this.errorMessage = "There are no products in your cart.";
+      this.loadingService.hide();
+      return;
+    }
+  
     const couponCode = this.couponForm.get('code')?.value?.trim();
   
     if (!couponCode) {
@@ -215,7 +221,30 @@ export class CartComponent implements OnInit {
     );
   }
   
-
+  removeCoupon(couponCode: string): void {
+    this.couponService.validateCoupon(couponCode).subscribe(
+      coupon => {
+        this.appliedCoupons = this.appliedCoupons.filter(coupon => coupon !== couponCode);
+  
+        if (coupon.discountType === 'PERCENTAGE') {
+          this.discountAmount -= (this.totalAmount * coupon.discountAmount) / 100;
+        } else if (coupon.discountType === 'AMOUNT') {
+          this.discountAmount -= coupon.discountAmount;
+        }
+  
+        if (this.discountAmount < 0) {
+          this.discountAmount = 0;
+        }
+  
+        this.calculateTotalAmount();
+        
+        this.messageService.add({ severity: 'info', summary: 'Coupon Removed', detail: `${couponCode} removed successfully` });
+      },
+      error => {
+        this.errorMessage = "Error removing coupon.";
+      }
+    );
+  }
   removeItem(event: Event, cart: Cart) {
     this.confirmationService.confirm({
       target: event.target as EventTarget,
