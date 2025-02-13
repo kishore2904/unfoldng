@@ -154,15 +154,16 @@ export class CartComponent implements OnInit {
         this.totalAmount += product.price * quantity;
       }
     });
-
-    // Apply discount if available
+  
+    // **Ensure discount does not exceed total amount**
+    this.discountAmount = Math.min(this.discountAmount, this.totalAmount);
+    
     this.totalAmountWithDiscount = this.totalAmount - this.discountAmount;
-
-    // Round the total amounts to two decimal places
-    this.totalAmount = parseFloat(this.totalAmount.toFixed(2));
+  
+    // **Ensure total is not negative and round to 2 decimal places**
+    this.totalAmountWithDiscount = Math.max(this.totalAmountWithDiscount, 0);
     this.totalAmountWithDiscount = parseFloat(this.totalAmountWithDiscount.toFixed(2));
-  }
-
+  }  
 
   onQuantityChange(productId: number, event: any) {
     const quantity = event.target.value;
@@ -264,16 +265,23 @@ export class CartComponent implements OnInit {
       },
       accept: () => {
         this.loadingService.show();
-        console.log(cart);
-        this.cartService.deleteCartItem(cart.cartId).subscribe((response) => {
+        this.cartService.deleteCartItem(cart.cartId).subscribe(() => {
           this.loadingService.hide();
           this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Item removed from cart' });
+  
+          // Fetch updated cart
           this.getCartDetails();
-        })
-
+  
+          // **Fix: Check if cart is empty and reset discount**
+          if (this.cart.length === 1) {  // Because the item is being removed, cart length will be 1 before removal
+            this.discountAmount = 0;  
+            this.appliedCoupons = [];  // Clear applied coupons
+          }
+  
+          this.calculateTotalAmount(); // Recalculate totals
+        });
       },
-      reject: () => {
-      },
+      reject: () => {},
     });
   }
 

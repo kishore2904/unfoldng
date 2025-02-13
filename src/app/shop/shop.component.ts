@@ -65,6 +65,10 @@ export class ShopComponent implements OnInit {
       console.log(response);
 
     })
+    this.wishlistService.getWishlist(this.userAuthService.getUserId()).subscribe((response) => {
+      this.wishlistProduct = response.filter(wishlist => wishlist.status === WishlistStatus.ACTIVE);
+      console.log('Active Wishlist Products:', this.wishlistProduct);
+    });
 
   }
 
