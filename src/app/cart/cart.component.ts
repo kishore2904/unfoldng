@@ -102,7 +102,10 @@ export class CartComponent implements OnInit {
           // Initialize cartForm after the data is available
           this.cartForm = this.fb.group({});
           cartItems.forEach(item => {
-            this.cartForm.addControl(item.productId.toString(), this.fb.control(item.quantity, Validators.min(1)));
+            this.cartForm.addControl(
+              item.productId.toString(),
+              this.fb.control(item.quantity, [Validators.required, Validators.min(1)])
+            );
           });
 
           this.calculateTotalAmount();
@@ -152,6 +155,7 @@ export class CartComponent implements OnInit {
       const product = this.product.find(p => p.productId === item.productId);
       if (product) {
         this.totalAmount += product.price * quantity;
+        this.totalAmount = parseFloat(this.totalAmount.toFixed(2));
       }
     });
   
@@ -166,12 +170,18 @@ export class CartComponent implements OnInit {
   }  
 
   onQuantityChange(productId: number, event: any) {
-    const quantity = event.target.value;
-    if (quantity <= 0) {
-      this.errorMessage = 'Quantity cannot be zero or negative.';
-      this.cartForm.get(productId.toString()); // reset to 1 if the quantity is invalid
+    let quantity = event.target.value;
+    if (quantity <= 0 || !Number.isInteger(+quantity)) {
+      this.errorMessage = 'Quantity must be a positive whole number.';
+      this.cartForm.get(productId.toString())?.setValue(1, { emitEvent: false }); // Reset to 1
     } else {
-      this.errorMessage = ''; // clear the error message if the quantity is valid
+      this.errorMessage = ''; // Clear the error message
+    }
+  }
+
+  preventNegativeInput(event: KeyboardEvent) {
+    if (event.key === '-' || event.key === 'e') {
+      event.preventDefault();
     }
   }
 
