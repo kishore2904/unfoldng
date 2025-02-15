@@ -172,7 +172,7 @@ export class CartComponent implements OnInit {
   onQuantityChange(productId: number, event: any) {
     let quantity = event.target.value;
     if (quantity <= 0 || !Number.isInteger(+quantity)) {
-      this.errorMessage = 'Quantity must be a positive whole number.';
+      
       this.cartForm.get(productId.toString())?.setValue(1, { emitEvent: false }); // Reset to 1
     } else {
       this.errorMessage = ''; // Clear the error message

@@ -45,8 +45,8 @@
         </form>
         <div class="appliedCart mt-4" *ngIf="appliedCoupons.length > 0">
             <h4>Applied Coupons:</h4>
-            <ul >
-              <li *ngFor="let coupon of appliedCoupons">{{ coupon }} <button (click)="removeCoupon(coupon)">Remove</button></li>
+            <ul>
+              <li *ngFor="let coupon of appliedCoupons">{{ coupon }} <i class="pi pi-times" (click)="removeCoupon(coupon)"></i></li>
             </ul>
         </div>
         

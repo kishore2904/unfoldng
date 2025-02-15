@@ -60,6 +60,14 @@ export class AdminHeadersComponent implements OnInit {
         route: '/add-size',
       },
       {
+        label: 'Coupon',
+        route: '/add-size',
+      },
+      {
+        label: 'Vendor',
+        route: '/add-size',
+      },
+      {
         label: 'Logout',
         route: '/logout',
         icon: 'pi pi-sign-out',

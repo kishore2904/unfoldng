@@ -29,7 +29,6 @@ import { FormGroup } from '@angular/forms';
     HeaderComponent,
     NgClass,
     NgFor,
-    NgIf
   ],
   providers: [MessageService,
   ],
