@@ -58,6 +58,30 @@
                                             class="text-danger">
                                             Enter User Name
                                         </p>
+                                        <input type="text" formControlName="firstName" name="first-name"
+                                            placeholder="FirstName">
+                                        <p *ngIf="registerForm.get('firstName')?.touched && !registerForm.get('firstName')?.value"
+                                            class="text-danger">
+                                            Enter First Name
+                                        </p>
+                                        <input type="text" formControlName="lastName" name="last-name"
+                                            placeholder="Last Name">
+                                        <p *ngIf="registerForm.get('lastName')?.touched && !registerForm.get('lastName')?.value"
+                                            class="text-danger">
+                                            Enter Last Name
+                                        </p>
+                                        <input type="text" formControlName="phoneNumber" name="phone-number"
+                                            placeholder="Phone Number">
+                                        <p *ngIf="registerForm.get('phoneNumber')?.touched && !registerForm.get('phoneNumber')?.value"
+                                            class="text-danger">
+                                            Enter Phone Number
+                                        </p>
+                                        <input type="text" formControlName="address" name="address"
+                                            placeholder="Address">
+                                        <p *ngIf="registerForm.get('address')?.touched && !registerForm.get('address')?.value"
+                                            class="text-danger">
+                                            Enter Address
+                                        </p>
                                         <input name="user-email" formControlName="emailAddress" placeholder="Email"
                                             type="email">
                                             <p *ngIf="registerForm.get('emailAddress')?.touched && !registerForm.get('emailAddress')?.value"
