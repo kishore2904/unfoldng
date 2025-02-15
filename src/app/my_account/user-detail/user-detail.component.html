@@ -1,0 +1,38 @@
+<app-my-account-header></app-my-account-header>    
+    <div class="row my-4">
+        <div class="earnings shadow bg-white rounded p-4">
+         <h4 class="text-capitalize mb-3">My Account</h4>
+         <div class="d-flex align-items-center">
+            <div class="mr-3">
+                <span><i class='bx bxs-user-circle text-primary display-1'></i></span>
+            </div>
+        </div>
+        <table class="table table-borderless">
+            <tr>
+                <td class="text-muted text-capitalize">user name:</td>
+                <td class="text-capitalize">{{ user.userName }}</td>
+            </tr>
+            <tr>
+                <td class="text-muted text-capitalize">first name:</td>
+                <td class="text-capitalize">{{ user.firstName }}</td>
+            </tr>
+            <tr>
+                <td class="text-muted text-capitalize">last name:</td>
+                <td class="text-capitalize">{{ user.lastName }}</td>
+            </tr>
+            <tr>
+                <td class="text-muted text-capitalize">email:</td>
+                <td >{{ user.emailAddress }}</td>
+            </tr>
+            <tr>
+                <td class="text-muted text-capitalize">Adress:</td>
+                <td class="text-capitalize">{{ user.address }}</td>
+            </tr>
+            <tr>
+                <td class="text-muted text-capitalize">phone:</td>
+                <td class="text-capitalize">{{ user.phoneNumber }}</td>
+            </tr>
+        </table>
+        </div>
+     </div>
+  

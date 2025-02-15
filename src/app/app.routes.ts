@@ -22,6 +22,8 @@ import { AddColorComponent } from './admin/add-color/add-color.component';
 import { AddSizeComponent } from './admin/add-size/add-size.component';
 import { AddCategoryComponent } from './admin/add-category/add-category.component';
 import { MyAccountDashboardComponent } from './my_account/my-account-dashboard/my-account-dashboard.component';
+import { OrderHistroyComponent } from './my_account/order-histroy/order-histroy.component';
+import { UserDetailComponent } from './my_account/user-detail/user-detail.component';
 
 
 export const routes: Routes = [
@@ -45,5 +47,8 @@ export const routes: Routes = [
     { path: 'checkout', component:CheckoutComponent},
     { path: 'add-color', component: AddColorComponent},
     { path: 'add-size', component: AddSizeComponent},
+    { path: 'order-history', component: OrderHistroyComponent},
+    { path: 'dashboard', component: MyAccountDashboardComponent},
+    { path: 'account', component: UserDetailComponent},
 
 ];

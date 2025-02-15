@@ -56,6 +56,8 @@ export class CheckoutComponent implements OnInit {
     const storedOrder = localStorage.getItem('pendingOrder');
     if (storedOrder) {
       this.order = JSON.parse(storedOrder);
+      console.log(this.order);
+      
       this.fetchProductDetails();
     }
   }

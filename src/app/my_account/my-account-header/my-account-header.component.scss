@@ -2,7 +2,7 @@
 .account-container {
     display: flex;
     flex-direction: column;
-    padding: 20px;
+    margin-top: 20px;
     gap: 20px;
     position: relative;
   }
@@ -65,7 +65,7 @@
     color: #555;
     text-align: center;
     cursor: pointer;
-    padding: 5px;
+    padding: 0px;
     transition: color 0.3s ease, transform 0.3s ease;
   }
   

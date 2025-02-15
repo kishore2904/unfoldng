@@ -1,0 +1,20 @@
+
+<app-my-account-header></app-my-account-header>
+<p-table #dt  [paginator]="true" [rows]="10"  responsiveLayout="scroll">
+    <ng-template pTemplate="header">
+      <tr>
+        <th pSortableColumn="orderId">Order ID <p-sortIcon field="orderId"></p-sortIcon></th>
+        <th pSortableColumn="date">Date <p-sortIcon field="date"></p-sortIcon></th>
+        <th pSortableColumn="status">Status <p-sortIcon field="status"></p-sortIcon></th>
+        <th pSortableColumn="total">Total <p-sortIcon field="total"></p-sortIcon></th>
+      </tr>
+    </ng-template>
+    <ng-template pTemplate="body" let-order>
+      <tr>
+        <td> order.orderId </td>
+        <td> order.date | date </td>
+        <td> order.status </td>
+        <td>order.total | currency </td>
+      </tr>
+    </ng-template>
+  </p-table>

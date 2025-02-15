@@ -1,0 +1,97 @@
+/* Main container */
+.account-container {
+    display: flex;
+    flex-direction: column;
+    padding: 0px 20px 20px 20px;
+    gap: 20px;
+    position: relative;
+  }
+  
+  /* Account content layout */
+  .account-content {
+    flex-grow: 1;
+    background-color: #fff;
+    padding: 0px 20px 20px 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  /* Grid layout for content sections */
+  .account-content .row {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 20px;
+  }
+  
+  /* Card styling */
+  .card {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  }
+  
+  .card h2 {
+    font-size: 20px;
+    margin-bottom: 10px;
+    color: #333;
+  }
+  
+  .card p {
+    color: #555;
+  }
+  
+  /* Bottom navigation bar (visible only on mobile) */
+  .bottom-nav {
+    display: none;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background-color: #fff;
+    box-shadow: 0 -2px 6px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+    border-top: 1px solid #ddd;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    padding: 10px 0;
+  }
+  
+  .bottom-nav .nav-button {
+    background-color: transparent;
+    border: none;
+    font-size: 14px;
+    color: #555;
+    text-align: center;
+    cursor: pointer;
+    padding: 0px;
+    transition: color 0.3s ease, transform 0.3s ease;
+  }
+  
+  .bottom-nav .nav-button:hover {
+    color: #f7a800;
+    transform: scale(1.1);
+  }
+  
+  .bottom-nav .nav-icon {
+    font-size: 24px;
+    margin-bottom: 5px;
+  }
+  
+  .bottom-nav .nav-text {
+    display: block;
+    font-size: 12px;
+  }
+  
+  /* Mobile View: Show bottom nav */
+  @media (max-width: 768px) {
+    .bottom-nav {
+      display: flex;
+    }
+    
+    .account-content {
+      padding-bottom: 60px; /* Ensure content doesn't overlap with the bottom navigation */
+    }
+  }
+  

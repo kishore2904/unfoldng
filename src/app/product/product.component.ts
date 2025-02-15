@@ -16,6 +16,8 @@ import { WishlistStatus } from '../../model/wishlistStatus.model';
 import { Cart } from '../../model/cart.model';
 import { CartService } from '../_service/cart.service';
 import { WishlistService } from '../_service/wishlist.service';
+import { Orders } from '../../model/orders.model';
+import { FormGroup } from '@angular/forms';
 
 @Component({
   selector: 'app-product',
@@ -39,11 +41,19 @@ export class ProductComponent implements AfterViewInit, OnInit {
   productId!: number;
   categoryId!: number;
   product!: Product;
+  products: Product[] = [];
 
   productList: Product[] = [];
   wishlist: Set<number> = new Set(); 
   category: Category[] = [];
   wishlistProduct: Wishlist[] = [];
+
+  totalAmount!: number;
+  totalAmountWithDiscount!: number;
+  cart: Cart[] = [];
+  cartForm!: FormGroup;
+  discountType: string = '';
+  discountAmount: number = 0;
 
   constructor(private router: Router,
     private route: ActivatedRoute,
@@ -75,8 +85,6 @@ export class ProductComponent implements AfterViewInit, OnInit {
 
   }
 
-
-
   ngAfterViewInit(): void {
     const mainImage = <HTMLImageElement>document.getElementById('mainImage');
     const smallImages = Array.from(document.getElementsByClassName('small-image')) as HTMLImageElement[];
@@ -90,8 +98,51 @@ export class ProductComponent implements AfterViewInit, OnInit {
     });
   }
   buyNow(product: Product) {
-
+    const currentDate = new Date();
+  
+    const orderItem = {
+      productId: product.productId,
+      variantId: 1 || null,
+      quantity: 1, // Default quantity is 1 for direct buy
+      priceAtTimeOfOrder: product.price || 0,
+    };
+  
+    const order: Orders = {
+      userId: this.userAuthService.getUserId(),
+      orderDate: currentDate.toISOString().split('T')[0], 
+      status: 'CREATED',
+      totalPrice: product.price || 0,
+      paymentStatus: 'PENDING',
+      shippingAddress: '123 Main Street, City, Country',
+      createdAt: currentDate.toISOString(),
+      orderItems: [orderItem],
+    };
+  
+    localStorage.setItem('pendingOrder', JSON.stringify(order));
+    console.log('Pending order',localStorage.getItem('pendingOrder'));
+    this.router.navigate(['/checkout']);
   }
+  
+
+  calculateTotalAmount(): void {
+    this.totalAmount = 0;
+    this.cart.forEach(item => {
+      const quantity = this.cartForm.get(item.productId.toString())?.value || 1;
+      const product = this.products.find(p => p.productId === item.productId);
+      if (product) {
+        this.totalAmount += product.price * quantity;
+      }
+    });
+  
+    // **Ensure discount does not exceed total amount**
+    this.discountAmount = Math.min(this.discountAmount, this.totalAmount);
+    
+    this.totalAmountWithDiscount = this.totalAmount - this.discountAmount;
+  
+    // **Ensure total is not negative and round to 2 decimal places**
+    this.totalAmountWithDiscount = Math.max(this.totalAmountWithDiscount, 0);
+    this.totalAmountWithDiscount = parseFloat(this.totalAmountWithDiscount.toFixed(2));
+  } 
   addToWishlist(product: Product) {
     if (this.userAuthService.isLoggedIn()) {
       console.log(product);
