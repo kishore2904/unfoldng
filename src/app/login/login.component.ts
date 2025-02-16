@@ -11,6 +11,7 @@ import { NgIf } from '@angular/common';
 import { LoadingService } from '../_service/loading.service';
 import { LoadingComponent } from '../shared/loader/loader.component';
 import { HeaderComponent } from '../header/header.component';
+import { EmailVerificationService } from '../_service/email-verification.service';
 
 @Component({
   selector: 'app-login',
@@ -31,6 +32,8 @@ import { HeaderComponent } from '../header/header.component';
 export class LoginComponent implements OnInit {
   loginForm!: FormGroup;
   registerForm!: FormGroup;
+  emailVerify:boolean=true;
+  verifyEmail!: FormGroup;
 
   constructor(
     private readonly formBuilder: FormBuilder,
@@ -40,6 +43,7 @@ export class LoginComponent implements OnInit {
     private readonly userAuthService: UserAuthService,
     private messageService: MessageService,
     private loadingService: LoadingService,
+    private emailVerificationService: EmailVerificationService,
 
   ) { }
 
@@ -58,6 +62,9 @@ export class LoginComponent implements OnInit {
       emailAddress: ['', [Validators.required, Validators.email]],
       confirmUserPassword: ['', [Validators.required]]
     });
+    this.verifyEmail = this.formBuilder.group({
+      code: ['',[Validators.required]]
+    })
   }
 
   ngOnInit(): void {
@@ -101,23 +108,45 @@ export class LoginComponent implements OnInit {
   }
 
   registerUser(): void {
-    if (this.registerForm.valid) {
-      this.loadingService.show();
-      this.userService.userRegister(this.registerForm.value).subscribe((response) => {
-        this.loadingService.hide();
-        this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Account created Successful. Please login again' });
-        setTimeout(() => {
-          this.router.navigate(['/home']);
-        }, 2000);
-      }, (error) => {
-        if (error.error.type != null) {
-          this.loginForm.reset();
-          this.messageService.add({ severity: 'error', summary: 'Error', detail: error.error.title });
+    this.loadingService.show();
+    this.emailVerify = false
+    const verifyEmailAddress = {
+      email: this.registerForm.get('emailAddress')?.value,
+    }
+    this.emailVerificationService.sendVerificationCode(verifyEmailAddress).subscribe((code)=>{
+      this.loadingService.hide();
+        this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Verification Code sent to Email Address' });
+    })
+  }
+  verifyCode(){
+    if(this.verifyEmail.valid){
+      const verifyEmailAddress = {
+        email: this.registerForm.get('emailAddress')?.value,
+        code: this.verifyEmail.get('code')?.value,
+      }
+      this.emailVerificationService.verifyCode(verifyEmailAddress).subscribe(()=>{
+        if (this.registerForm.valid) {
+          this.loadingService.show();
+          this.userService.userRegister(this.registerForm.value).subscribe((response) => {
+            this.loadingService.hide();
+            this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Account created Successful. Please login again' });
+            setTimeout(() => {
+              this.router.navigate(['/home']);
+            }, 2000);
+          }, (error) => {
+            if (error.error.type != null) {
+              this.loadingService.hide();
+              this.loginForm.reset();
+              this.messageService.add({ severity: 'error', summary: 'Error', detail: error.error.title });
+            }
+    
+          })
         }
 
+      },(error)=>{
+        this.messageService.add({ severity: 'error', summary: 'Error', detail: error.error.title });
       })
     }
-
-
+    
   }
 }
