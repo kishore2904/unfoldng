@@ -1,115 +1,63 @@
 <p-toast />
 <app-admin-headers></app-admin-headers>
+
 <div class="card m-5">
     <div class="container">
         <h3>Add Product</h3>
     </div>
-    <form [formGroup]="addProductForm" >
-    <div class="header">
-        
-        <div class="inputDetail">
-            <p-floatlabel variant="on">
-                <input pInputText id="on_label" formControlName="productName" autocomplete="off" />
-                <label for="on_label">Product Name</label>
-            </p-floatlabel>
-        </div>
-        <div class="inputDetail">
-            <p-floatlabel variant="on">
-                <textarea rows="5" cols="30" formControlName="productDescription" pTextarea [autoResize]="true"></textarea>
-                <label for="on_label">Product Description</label>
-            </p-floatlabel>
-        </div>
-   
-    </div>
-    
-</form>
-<div class="btn">
-    <p-button label="Add Variant" icon="pi pi-plus" iconPos="right" (click)="showDialog()" />
-</div>
-</div>
-<div class="card flex justify-center">
 
-    <p-dialog header="Add Variant" [modal]="true" [(visible)]="visible" [style]="{ width: '35rem' }">
-        <span class="p-text-secondary block mb-8">Enter Variant Details.</span>
-        <div class="flex items-left gap-4 mb-4">
-            <label for="username" class="font-semibold w-24">Category</label>
-            <p-select [options]="categories" optionLabel="categoryName" placeholder="Select a Category"
-                class="w-full md:w-56" />
-          </div>
-        <div class="flex items-left gap-4 mb-4">
-            <label for="username" class="font-semibold w-24">Color</label>
-            <p-select [options]="productColors" optionLabel="colorName" placeholder="Select a Color"
-                class="w-full md:w-56" />
-          </div>
-        <div class="flex items-center gap-4 mb-4">
-            <label for="productColor" class="font-semibold w-24">Size</label>
-            <p-select [options]="productSize" optionLabel="sizeName" placeholder="Select a Size"
-                class="w-full md:w-56" />
-          </div>
-        <div class="flex items-center gap-4 mb-8">
-            <label for="email" class="font-semibold w-24">Image</label>
-            <p-fileupload (onUpload)="onUpload($event)" [multiple]="true" accept="image/*" maxFileSize="1000000"
-                mode="advanced">
-                <ng-template #empty>
-                    <div>Drag and drop files to here to upload.</div>
-                </ng-template>
-                <ng-template #content>
-                    <ul *ngIf="uploadedFiles.length">
-                        <li *ngFor="let file of uploadedFiles">{{ file.name }} - {{ file.size }} bytes</li>
-                    </ul>
-                </ng-template>
-            </p-fileupload>
-          </div>
-        <div class="flex items-center gap-4 mb-8">
-            <label for="email" class="font-semibold w-24">Stock</label>
-            <input pInputText id="email" class="flex-auto" autocomplete="off" />
-          </div>
-        <div class="flex items-center gap-4 mb-8">
-            <label for="email" class="font-semibold w-24">Price</label>
-            <input pInputText id="email" class="flex-auto" autocomplete="off" />
-        </div>
-        <div class="flex justify-end gap-2">
-          <p-button label="Cancel" severity="secondary" (click)="visible = false" />
-          <p-button label="Save" (click)="visible = false" />
-        </div>
-      </p-dialog>
-</div>
-<div class="card m-4">
-    <div class="container">
-        <h3>Product Variants</h3>
+<!-- Product form -->
+<form [formGroup]="addProductForm">
+    <div class="header">
+      <div class="inputDetail">
+        <p-floatlabel variant="on">
+          <input pInputText formControlName="productName" autocomplete="off" />
+          <label for="on_label">Product Name</label>
+        </p-floatlabel>
+      </div>
+  
+      <div class="inputDetail">
+        <p-floatlabel variant="on">
+          <textarea rows="5" cols="30" formControlName="productDescription" pTextarea [autoResize]="true"></textarea>
+          <label for="on_label">Product Description</label>
+        </p-floatlabel>
+      </div>
     </div>
-    <p-table [value]="products" [tableStyle]="{ 'min-width': '50rem' }">
-        <ng-template pTemplate="header">
-            <tr>
-                <th>S.No</th>
-                <th>Product Name</th>
-                <th>Category</th>
-                <th>Color</th>
-                <th>Size</th>
-                <th>Stock</th>
-                <th>Quantity</th>
-                <th>Image</th>
-                <th></th>
-                <th></th>
-            </tr>
-        </ng-template>
-        <ng-template pTemplate="body" let-product>
-            <tr>
-                <td>{{ product.code }}</td>
-                <td>{{ product.name }}</td>
-                <td>{{ product.category }}</td>
-                <td>{{ product.quantity }}</td>
-                <td>{{ product.quantity }}</td>
-                <td>{{ product.quantity }}</td>
-                <td>{{ product.quantity }}</td>
-                <td>{{ product.quantity }}</td>
-                <td>edit</td>
-                <td>delete</td>
-            </tr>
-        </ng-template>
-    </p-table>
-    <div class="flex m-6  gap-2">
-        <p-button label="Cancel" severity="secondary" (click)="visible = false" />
-        <p-button label="Save" (click)="visible = false" />
+    <div formArrayName="productVariantDtos">
+      <div *ngFor="let variant of productVariantDtos.controls; let i = index" [formGroupName]="i" >
+        <div class="variant-fields">
+          <div class="inputDetail">
+            <p-select formControlName="category" [options]="categories" optionLabel="categoryName" optionValue="categoryId" placeholder="Category" class="w-full"></p-select>
+          </div>
+          <div class="inputDetail">
+            <p-select formControlName="color" [options]="productColors" optionLabel="colorName" optionValue="colorId" placeholder="Color" class="w-full"></p-select>
+          </div>
+          <div class="inputDetail">
+            <p-select formControlName="size" [options]="productSize" optionLabel="sizeName" optionValue="sizeId" placeholder="Size" class="w-full"></p-select>
+          </div>
+          <div class="inputDetail">
+            <p-fileupload (onUpload)="onUpload($event)" [multiple]="true" accept="image/*" maxFileSize="1000000" mode="advanced"></p-fileupload>
+          </div>
+          <div class="inputDetail">
+            <input pInputText formControlName="stock" type="number" placeholder="Stock" />
+          </div>
+          <div class="inputDetail">
+            <input pInputText formControlName="price" type="number" placeholder="Price" />
+          </div>
+          <div class="btn">
+            <p-button label="Remove Variant" icon="pi pi-minus" iconPos="left" (click)="removeVariant(i)" severity="danger"></p-button>
+          </div>
+        </div>
+      </div>
     </div>
+  
+    <div class="btn">
+      <p-button label="Add Variant" icon="pi pi-plus" iconPos="right" (click)="addVariant()"></p-button>
+    </div>
+  
+    <div class="flex justify-end gap-2 mt-4">
+      <p-button label="Cancel" severity="secondary" (click)="visible = false"></p-button>
+      <p-button label="Save" (click)="onSubmit()"></p-button>
+    </div>
+  </form>
 </div>

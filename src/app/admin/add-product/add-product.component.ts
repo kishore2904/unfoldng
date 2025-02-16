@@ -119,4 +119,30 @@ export class AddProductComponent implements OnInit {
     }
     this.messageService.add({ severity: 'info', summary: 'File Uploaded', detail: '' });
   }
+
+  // Initialize the product form with product and variants
+  
+get productVariantDtos() {
+  return this.addProductForm.get('productVariantDtos') as FormArray;
+}
+createVariant(): FormGroup {
+  return this.formBuilder.group({
+    category: [null], // Default value for category, null or you can set a default id
+    color: [null], // Default value for color, null or set a default value
+    size: [null], // Default value for size
+    stock: [null], // Default value for stock
+    price: [null], // Default value for price
+    image: [''] // Default value for image
+  });
+}
+addVariant() {
+  (this.addProductForm.get('productVariantDtos') as FormArray).push(this.createVariant());
+}
+
+removeVariant(index: number) {
+  (this.addProductForm.get('productVariantDtos') as FormArray).removeAt(index);
+}
+  onSubmit() {
+    console.log(this.addProductForm.value);
+  }
 }

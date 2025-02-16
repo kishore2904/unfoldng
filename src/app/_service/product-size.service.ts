@@ -28,4 +28,9 @@ export class ProductSizeService {
       const headers = this.createAuthorizationHeader();
       return this.httpClient.post<ProductSize[]>(`${API_PATH}${REST_API}/productSize`,size,{headers})
     }
+
+    public getSizeById(sizeId:number):Observable<ProductSize>{
+      const headers = this.createAuthorizationHeader();
+      return this.httpClient.get<ProductSize>(`${API_PATH}${REST_API}/productSize/`+sizeId,{headers})
+    }
 }

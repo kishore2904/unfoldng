@@ -22,4 +22,9 @@ export class OrderService {
     const headers = this.createAuthorizationHeader();
     return this.httpClient.post<Orders>(`${API_PATH}${REST_API}/orders`,order,{headers});
   }
+
+  public getUserOrder(userId:string):Observable<Orders[]>{
+    const headers = this.createAuthorizationHeader();
+    return this.httpClient.get<Orders[]>(`${API_PATH}${REST_API}/order/user/`+userId,{headers})
+  }
 }
