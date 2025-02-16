@@ -20,6 +20,7 @@ import { ProductSize } from '../../../model/productSize.model';
 import { CategoryService } from '../../_service/category.service';
 import { Category } from '../../../model/category.model';
 import { Product } from '../../../model/product.model';
+import { ProductService } from '../../_service/product.service';
 
 interface UploadEvent {
   originalEvent: FileUploadEvent;
@@ -72,8 +73,9 @@ export class AddProductComponent implements OnInit {
     private productColorService: ProductColorService,
     private productSizeService: ProductSizeService,
     private categoryService: CategoryService,
-    private formBuilder: FormBuilder
-  ) {}
+    private formBuilder: FormBuilder,
+    private productService: ProductService,
+  ) { }
 
   ngOnInit(): void {
     this.initializeForm();
@@ -120,29 +122,53 @@ export class AddProductComponent implements OnInit {
     this.messageService.add({ severity: 'info', summary: 'File Uploaded', detail: '' });
   }
 
-  // Initialize the product form with product and variants
-  
-get productVariantDtos() {
-  return this.addProductForm.get('productVariantDtos') as FormArray;
-}
-createVariant(): FormGroup {
-  return this.formBuilder.group({
-    category: [null], // Default value for category, null or you can set a default id
-    color: [null], // Default value for color, null or set a default value
-    size: [null], // Default value for size
-    stock: [null], // Default value for stock
-    price: [null], // Default value for price
-    image: [''] // Default value for image
-  });
-}
-addVariant() {
-  (this.addProductForm.get('productVariantDtos') as FormArray).push(this.createVariant());
-}
+  get productVariantDtos() {
+    return this.addProductForm.get('productVariantDtos') as FormArray;
+  }
+  createVariant(): FormGroup {
+    return this.formBuilder.group({
+      category: [null], // Default value for category, null or you can set a default id
+      colorId: [null], // Default value for color, null or set a default value
+      sizeId: [null], // Default value for size
+      stockQuantity: [null], // Default value for stock
+      price: [null], // Default value for price
+      productImageDtos: [] 
+    });
+  }
+  addVariant() {
+    (this.addProductForm.get('productVariantDtos') as FormArray).push(this.createVariant());
+  }
 
-removeVariant(index: number) {
-  (this.addProductForm.get('productVariantDtos') as FormArray).removeAt(index);
-}
+  removeVariant(index: number) {
+    (this.addProductForm.get('productVariantDtos') as FormArray).removeAt(index);
+  }
   onSubmit() {
     console.log(this.addProductForm.value);
+  
+    const productVariants = this.addProductForm.value.productVariantDtos;
+  
+    
+    productVariants.forEach((variant: any) => {
+      if (!variant.productImageDtos) {
+        variant.productImageDtos = [];
+      }
+    });
+  
+    if (productVariants.length > 0) {
+      const firstCategoryId = productVariants[0].category;
+  
+      // Send the updated form data to the backend
+      this.productService.createNewProduct(this.addProductForm.value, firstCategoryId).subscribe(
+        (response) => {
+          this.addProductForm.reset();
+        },
+        (error) => {
+          console.error('Error creating product:', error);
+        }
+      );
+    } else {
+      console.log('No variants available');
+    }
   }
+  
 }

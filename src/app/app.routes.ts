@@ -6,7 +6,6 @@ import { AboutComponent } from './about/about.component';
 import { ShopComponent } from './shop/shop.component';
 import { ContactComponent } from './contact/contact.component';
 import { AuthGuard } from './_auth/auth.guard';
-import { SignupComponent } from './signup/signup.component';
 import { ProductComponent } from './product/product.component';
 import { AdminComponent } from './admin_panel/admin/admin.component';
 import { CartComponent } from './cart/cart.component';
@@ -24,6 +23,7 @@ import { AddCategoryComponent } from './admin/add-category/add-category.componen
 import { MyAccountDashboardComponent } from './my_account/my-account-dashboard/my-account-dashboard.component';
 import { OrderHistroyComponent } from './my_account/order-histroy/order-histroy.component';
 import { UserDetailComponent } from './my_account/user-detail/user-detail.component';
+import { ViewProductsComponent } from './admin/view-products/view-products.component';
 
 
 export const routes: Routes = [
@@ -36,7 +36,6 @@ export const routes: Routes = [
     { path: 'shop', component: ShopComponent },
     { path: 'contact', component: ContactComponent },
     { path: 'admin', component: AdminDashboardComponent, canActivate: [AuthGuard], data: { roles: ['Admin'] } },
-    { path: 'signup', component: SignupComponent },
     { path: 'product/:categoryId/:productId', component: ProductComponent },
     { path: 'cart', component: CartComponent },
     { path: 'admin-add-category', component: AddCategoryComponent, canActivate: [AuthGuard], data: { roles: ['Admin'] } },
@@ -50,5 +49,6 @@ export const routes: Routes = [
     { path: 'order-history', component: OrderHistroyComponent},
     { path: 'dashboard', component: MyAccountDashboardComponent},
     { path: 'account', component: UserDetailComponent},
+    { path: 'admin-product', component: ViewProductsComponent}
 
 ];

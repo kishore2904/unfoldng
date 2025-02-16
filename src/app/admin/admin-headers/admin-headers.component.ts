@@ -41,7 +41,7 @@ export class AdminHeadersComponent implements OnInit {
           },
           {
             label: 'View Product',
-            route: '/configuration',
+            route: '/admin-product',
           }
         ]
       },

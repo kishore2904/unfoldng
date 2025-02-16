@@ -30,16 +30,16 @@
             <p-select formControlName="category" [options]="categories" optionLabel="categoryName" optionValue="categoryId" placeholder="Category" class="w-full"></p-select>
           </div>
           <div class="inputDetail">
-            <p-select formControlName="color" [options]="productColors" optionLabel="colorName" optionValue="colorId" placeholder="Color" class="w-full"></p-select>
+            <p-select formControlName="colorId" [options]="productColors" optionLabel="colorName" optionValue="colorId" placeholder="Color" class="w-full"></p-select>
           </div>
           <div class="inputDetail">
-            <p-select formControlName="size" [options]="productSize" optionLabel="sizeName" optionValue="sizeId" placeholder="Size" class="w-full"></p-select>
+            <p-select formControlName="sizeId" [options]="productSize" optionLabel="sizeName" optionValue="sizeId" placeholder="Size" class="w-full"></p-select>
           </div>
           <div class="inputDetail">
             <p-fileupload (onUpload)="onUpload($event)" [multiple]="true" accept="image/*" maxFileSize="1000000" mode="advanced"></p-fileupload>
           </div>
           <div class="inputDetail">
-            <input pInputText formControlName="stock" type="number" placeholder="Stock" />
+            <input pInputText formControlName="stockQuantity" type="number" placeholder="Stock" />
           </div>
           <div class="inputDetail">
             <input pInputText formControlName="price" type="number" placeholder="Price" />
